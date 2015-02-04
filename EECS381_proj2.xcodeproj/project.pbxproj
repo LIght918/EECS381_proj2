@@ -7,7 +7,13 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
-		5AD4B7821A7DBAA7007B7660 /* main.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 5AD4B7811A7DBAA7007B7660 /* main.cpp */; };
+		5AEBD9D81A8166C600AFF637 /* Collection.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 5AEBD9C51A8166C600AFF637 /* Collection.cpp */; };
+		5AEBD9DA1A8166C600AFF637 /* Ordered_list.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 5AEBD9C81A8166C600AFF637 /* Ordered_list.cpp */; };
+		5AEBD9DB1A8166C600AFF637 /* p2_globals.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 5AEBD9CA1A8166C600AFF637 /* p2_globals.cpp */; };
+		5AEBD9DC1A8166C600AFF637 /* Record.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 5AEBD9CC1A8166C600AFF637 /* Record.cpp */; };
+		5AEBD9DD1A8166C600AFF637 /* String.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 5AEBD9CE1A8166C600AFF637 /* String.cpp */; };
+		5AEBD9DE1A8166C600AFF637 /* String_demo1.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 5AEBD9D21A8166C600AFF637 /* String_demo1.cpp */; };
+		5AEBD9E21A8166C600AFF637 /* Utility.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 5AEBD9D61A8166C600AFF637 /* Utility.cpp */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXCopyFilesBuildPhase section */
@@ -24,7 +30,26 @@
 
 /* Begin PBXFileReference section */
 		5AD4B77E1A7DBAA7007B7660 /* EECS381_proj2 */ = {isa = PBXFileReference; explicitFileType = "compiled.mach-o.executable"; includeInIndex = 0; path = EECS381_proj2; sourceTree = BUILT_PRODUCTS_DIR; };
-		5AD4B7811A7DBAA7007B7660 /* main.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = main.cpp; sourceTree = "<group>"; };
+		5AEBD9C51A8166C600AFF637 /* Collection.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = Collection.cpp; path = src/Collection.cpp; sourceTree = "<group>"; };
+		5AEBD9C61A8166C600AFF637 /* Collection.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = Collection.h; path = src/Collection.h; sourceTree = "<group>"; };
+		5AEBD9C71A8166C600AFF637 /* Makefile */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.make; name = Makefile; path = src/Makefile; sourceTree = "<group>"; };
+		5AEBD9C81A8166C600AFF637 /* Ordered_list.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = Ordered_list.cpp; path = src/Ordered_list.cpp; sourceTree = "<group>"; };
+		5AEBD9C91A8166C600AFF637 /* Ordered_list.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = Ordered_list.h; path = src/Ordered_list.h; sourceTree = "<group>"; };
+		5AEBD9CA1A8166C600AFF637 /* p2_globals.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = p2_globals.cpp; path = src/p2_globals.cpp; sourceTree = "<group>"; };
+		5AEBD9CB1A8166C600AFF637 /* p2_globals.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = p2_globals.h; path = src/p2_globals.h; sourceTree = "<group>"; };
+		5AEBD9CC1A8166C600AFF637 /* Record.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = Record.cpp; path = src/Record.cpp; sourceTree = "<group>"; };
+		5AEBD9CD1A8166C600AFF637 /* Record.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = Record.h; path = src/Record.h; sourceTree = "<group>"; };
+		5AEBD9CE1A8166C600AFF637 /* String.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = String.cpp; path = src/String.cpp; sourceTree = "<group>"; };
+		5AEBD9CF1A8166C600AFF637 /* String.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = String.h; path = src/String.h; sourceTree = "<group>"; };
+		5AEBD9D01A8166C600AFF637 /* strings.txt */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; name = strings.txt; path = src/strings.txt; sourceTree = "<group>"; };
+		5AEBD9D21A8166C600AFF637 /* String_demo1.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = String_demo1.cpp; sourceTree = "<group>"; };
+		5AEBD9D31A8166C600AFF637 /* String_demo2.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = String_demo2.cpp; sourceTree = "<group>"; };
+		5AEBD9D41A8166C600AFF637 /* String_demo3.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = String_demo3.cpp; sourceTree = "<group>"; };
+		5AEBD9D51A8166C600AFF637 /* String_demo4.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = String_demo4.cpp; sourceTree = "<group>"; };
+		5AEBD9D61A8166C600AFF637 /* Utility.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = Utility.cpp; path = src/Utility.cpp; sourceTree = "<group>"; };
+		5AEBD9D71A8166C600AFF637 /* Utility.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = Utility.h; path = src/Utility.h; sourceTree = "<group>"; };
+		5AEBD9E31A816A1A00AFF637 /* p2_main.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = p2_main.cpp; path = src/p2_main.cpp; sourceTree = "<group>"; };
+		5AEBD9E41A816A1A00AFF637 /* p2_main.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = p2_main.h; path = src/p2_main.h; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -41,6 +66,23 @@
 		5AD4B7751A7DBAA6007B7660 = {
 			isa = PBXGroup;
 			children = (
+				5AEBD9C51A8166C600AFF637 /* Collection.cpp */,
+				5AEBD9C61A8166C600AFF637 /* Collection.h */,
+				5AEBD9C71A8166C600AFF637 /* Makefile */,
+				5AEBD9C81A8166C600AFF637 /* Ordered_list.cpp */,
+				5AEBD9C91A8166C600AFF637 /* Ordered_list.h */,
+				5AEBD9E31A816A1A00AFF637 /* p2_main.cpp */,
+				5AEBD9E41A816A1A00AFF637 /* p2_main.h */,
+				5AEBD9CA1A8166C600AFF637 /* p2_globals.cpp */,
+				5AEBD9CB1A8166C600AFF637 /* p2_globals.h */,
+				5AEBD9CC1A8166C600AFF637 /* Record.cpp */,
+				5AEBD9CD1A8166C600AFF637 /* Record.h */,
+				5AEBD9CE1A8166C600AFF637 /* String.cpp */,
+				5AEBD9CF1A8166C600AFF637 /* String.h */,
+				5AEBD9D01A8166C600AFF637 /* strings.txt */,
+				5AEBD9D11A8166C600AFF637 /* test_files */,
+				5AEBD9D61A8166C600AFF637 /* Utility.cpp */,
+				5AEBD9D71A8166C600AFF637 /* Utility.h */,
 				5AD4B7801A7DBAA7007B7660 /* EECS381_proj2 */,
 				5AD4B77F1A7DBAA7007B7660 /* Products */,
 			);
@@ -57,9 +99,20 @@
 		5AD4B7801A7DBAA7007B7660 /* EECS381_proj2 */ = {
 			isa = PBXGroup;
 			children = (
-				5AD4B7811A7DBAA7007B7660 /* main.cpp */,
 			);
 			path = EECS381_proj2;
+			sourceTree = "<group>";
+		};
+		5AEBD9D11A8166C600AFF637 /* test_files */ = {
+			isa = PBXGroup;
+			children = (
+				5AEBD9D21A8166C600AFF637 /* String_demo1.cpp */,
+				5AEBD9D31A8166C600AFF637 /* String_demo2.cpp */,
+				5AEBD9D41A8166C600AFF637 /* String_demo3.cpp */,
+				5AEBD9D51A8166C600AFF637 /* String_demo4.cpp */,
+			);
+			name = test_files;
+			path = src/test_files;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -118,7 +171,13 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				5AD4B7821A7DBAA7007B7660 /* main.cpp in Sources */,
+				5AEBD9DB1A8166C600AFF637 /* p2_globals.cpp in Sources */,
+				5AEBD9DA1A8166C600AFF637 /* Ordered_list.cpp in Sources */,
+				5AEBD9DC1A8166C600AFF637 /* Record.cpp in Sources */,
+				5AEBD9DD1A8166C600AFF637 /* String.cpp in Sources */,
+				5AEBD9D81A8166C600AFF637 /* Collection.cpp in Sources */,
+				5AEBD9E21A8166C600AFF637 /* Utility.cpp in Sources */,
+				5AEBD9DE1A8166C600AFF637 /* String_demo1.cpp in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -232,6 +291,7 @@
 				5AD4B7871A7DBAA8007B7660 /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
 		};
 /* End XCConfigurationList section */
 	};
