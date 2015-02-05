@@ -120,7 +120,7 @@ int main ()
 	str[3] = str[9];
 	print_info(str);
 
-
+    
 	String input;
 	
 	// input operator
@@ -128,7 +128,7 @@ int main ()
 	print_info(input);
 	cout << "enter three strings on the same or different lines:" << endl;	
 	/* enter a short, medium, and long string to see different allocations at work */
-	cin >> input;
+	/*cin >> input;
 	cout << "String input: ";
 	print_info(input);
 
@@ -147,7 +147,7 @@ int main ()
 	// copy input results to another string with copy ctor
 	String s5(input); 
 	print_info(s5); 
- 	
+ 	*/
 	} // end of try block
 	
 	catch(String_exception& x) {

@@ -153,7 +153,7 @@ public:
 	// Call with true to cause ctor, assignment, and dtor messages to be output.
 	// These messages are output from each function before it does anything else.
 	static void set_messages_wanted(bool messages_wanted_)
-		{messages_wanted = messages_wanted_;}
+		{ messages_wanted = messages_wanted_; }
 	
 private:
     
