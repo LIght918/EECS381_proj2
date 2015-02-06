@@ -2,16 +2,62 @@
 
 Watch them go in and out of scope
 in test_fn1:
-In string "Good morning!" allocation is 14
-In string "Good night!" allocation is 12
 Good morning!Good night!
 2 Strings using 26 bytes
 0 Strings using 0 bytes
 
 Demonstrate initialization and copy and move construction
 Initialize a with String a = "Hello";
-In string "Hello" allocation is 6
 Construct b from a
-In string "Hello" allocation is 6
 Construct c from a + b
-In string "HelloHello" allocation is 11
+grow n is 5
+a:Hello b:Hello c:HelloHello
+Construct d from function return value
+in test_fn2
+test_fn2 returning: xxx
+d:xxx
+-2 Strings using 10 bytes
+
+Demonstrate assignment operators
+Assign from a C-string
+Assign from another String
+Assign from a + b
+grow n is 13
+a:Good Morning! b:Good Morning! c:Good Morning!Good Morning!
+-4 Strings using 11 bytes
+
+Demonstrate call and return by value
+Call a function with a call-by-value argument that returns that same variable
+test_fn3 got:initial a
+-4 Strings using -14 bytes
+test_fn3 returning: !!!
+-4 Strings using -10 bytes
+function call result: !!!
+Call the same function with an argument of a + b
+grow n is 3
+test_fn3 got:initial a!!!
+-6 Strings using -20 bytes
+test_fn3 returning: !!!
+-6 Strings using -16 bytes
+function call result: !!!
+a:initial a b:!!! c:!!!
+-9 Strings using -26 bytes
+
+Demonstrate move construction and assignment using std::move
+a has aaa
+-11 Strings using -40 bytes
+move construct b from a
+a now has "", b has "aaa"
+-11 Strings using -40 bytes
+now move assign a from b
+a now has "aaa", b has ""
+-11 Strings using -40 bytes
+
+Demonstrate swaping
+-11 Strings using -36 bytes
+a now has "aaa", b has "bbb"
+let's swap their guts with String::swap!
+a now has "bbb", b has "aaa"
+let's swap their guts back with std::swap which uses std::move through a temporary String!
+a now has "aaa", b has "bbb"
+-12 Strings using -36 bytes

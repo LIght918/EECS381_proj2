@@ -41,10 +41,7 @@ void String::clear()
 
 String::String(const String& original)
 {
-    //std::cout << "In string \"" << original.cstr << "\" ";
-    //std::cout << "allocation is " << original.allocation << std::endl; 
     num_elt = original.num_elt;
-    
     
     if ( num_elt > 0 )
     {
@@ -87,7 +84,21 @@ String::String( const char* cstr_ )
 String& String::operator= (const String& rhs)
 {
     // use the assingment operator with c_str
-    *this = rhs.cstr;
+    allocation = rhs.allocation;
+    num_elt = rhs.num_elt;
+    
+    if ( allocation > 0 )
+    {
+    	total_allocation += allocation;
+        
+        cstr = new char[ allocation ];
+        strcpy( cstr , rhs.cstr );
+    }
+    else
+    {
+    	cstr = &a_null_byte;
+        allocation = 0;
+    }
     
     return *this;
 }
@@ -188,7 +199,6 @@ inline void String::check_bounds( int i, int len ) const
 {
     if ( i < 0  || i + len > num_elt || len < 0 )
     {
-    	std::cout << "len: " << len << " i: " << i << " numelt: " << num_elt << std::endl;  
         throw String_exception( "Out of Bounds Exception\n" );
     }
 }
@@ -220,9 +230,12 @@ String& String::operator += (const char* rhs)
 {
     int rhs_lenght = strlen( rhs );
     
-    if ( allocation < num_elt + 1 + rhs_lenght )
-        grow( rhs_lenght );
     
+    if ( allocation < num_elt + 1 + rhs_lenght )
+    {
+    	std::cout << "grow n is " << rhs_lenght << std::endl; 
+        grow( rhs_lenght );
+    }
     memcpy( cstr + num_elt, rhs, rhs_lenght );
     
     num_elt += rhs_lenght;

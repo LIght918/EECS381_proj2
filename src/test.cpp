@@ -8,23 +8,12 @@ void print_info(const String& s);
 
 int main()
 {
-	String s; 
-	print_info( s ); 
-	
-	String s1( "test");
-	print_info( s1 ); 
-	
-	{
-		String s2( s1 ); 
-		print_info( s2 );
-	}
-	
-	cout << s1 << endl; 
-	
-	
-	String s3{ move( s1 ) };
-	print_info( s3 ); 
-	
+        String target;
+        print_info(target);
+        target = target + "abc";
+        print_info(target);
+        
+        
 	return 0; 
 }
 
