@@ -42,7 +42,7 @@ void String::clear()
 String::String(const String& original)
 {
     std::cout << "In string \"" << original.cstr << "\" ";
-    std::cout << "allocation is " << original.allocation << std::endl; 
+    std::cout << "allocation is " << allocation << std::endl; 
     allocation = original.allocation;
     num_elt = original.num_elt;
     
@@ -59,8 +59,8 @@ String::String(const String& original)
 
 String::String( const char* cstr_ )
 {
-    std::cout << "In string \"" << cstr_ << "\" ";
-    
+    std::cout << "In string \"" << original.cstr << "\" ";
+    std::cout << "allocation is " << allocation << std::endl; 
     num_elt =  strlen( cstr_ );
 
     if ( num_elt > 0 )
@@ -77,7 +77,6 @@ String::String( const char* cstr_ )
         cstr = &a_null_byte;
         allocation = 0;
     }
-    std::cout << "allocation is " << allocation << std::endl; 
     
     number++;
 }

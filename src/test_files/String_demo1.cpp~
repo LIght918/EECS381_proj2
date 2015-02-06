@@ -13,12 +13,11 @@ int main ()
 {
 	// in case there is an exception thrown
 	try {
-	
+
 	// constructors
 	String s0, s1 ("Tom"), s2 ("Dick"), s3 ("Harry");
-	
 	String s4(s3);
-	
+
 	// access internal info
 	print_info(s0);
 	print_info(s1);

@@ -1,0 +1,10 @@
+0 Strings using 0 bytes
+
+Watch them go in and out of scope
+in test_fn1:
+Good morning!Good night!
+2 Strings using 26 bytes
+0 Strings using 0 bytes
+
+Demonstrate initialization and copy and move construction
+Initialize a with String a = "Hello";
