@@ -1,0 +1,17 @@
+0 Strings using 0 bytes
+
+Watch them go in and out of scope
+in test_fn1:
+In string "Good morning!" allocation is 14
+In string "Good night!" allocation is 12
+Good morning!Good night!
+2 Strings using 26 bytes
+0 Strings using 0 bytes
+
+Demonstrate initialization and copy and move construction
+Initialize a with String a = "Hello";
+In string "Hello" allocation is 6
+Construct b from a
+In string "Hello" allocation is 6
+Construct c from a + b
+In string "HelloHello" allocation is 11

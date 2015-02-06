@@ -113,7 +113,13 @@ String& String::operator= (const char* rhs)
 
 String::String(String&& original) noexcept
 {
-    swap( original );
+    allocation = original.allocation;
+    num_elt = original.num_elt;
+    cstr = original.cstr;
+    
+    original.cstr = &a_null_byte;
+    original.allocation = 0;
+    original.num_elt = 0; 
 }
 
 String& String::operator= (String&& rhs) noexcept
@@ -285,3 +291,29 @@ ostream& operator<< (ostream& os, const String& str)
     os << str.c_str();
     return os;
 }
+
+
+istream& operator>> ( istream& is, String& str)
+{
+    str.clear();
+    
+    // read in all the leading whitespace
+    while ( isspace( is.get() ) ) ;
+    
+    while ( !isspace( is.peek() ) )
+    {
+        // add each char as read 
+        str += is.get();
+    }
+    
+    return is;
+}
+
+
+
+
+
+
+
+
+
