@@ -12,8 +12,8 @@
 		5AEBD9DB1A8166C600AFF637 /* p2_globals.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 5AEBD9CA1A8166C600AFF637 /* p2_globals.cpp */; };
 		5AEBD9DC1A8166C600AFF637 /* Record.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 5AEBD9CC1A8166C600AFF637 /* Record.cpp */; };
 		5AEBD9DD1A8166C600AFF637 /* String.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 5AEBD9CE1A8166C600AFF637 /* String.cpp */; };
-		5AEBD9DE1A8166C600AFF637 /* String_demo1.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 5AEBD9D21A8166C600AFF637 /* String_demo1.cpp */; };
 		5AEBD9E21A8166C600AFF637 /* Utility.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 5AEBD9D61A8166C600AFF637 /* Utility.cpp */; };
+		5AF3D0241A843FB200513A37 /* String_demo3.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 5AEBD9D41A8166C600AFF637 /* String_demo3.cpp */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXCopyFilesBuildPhase section */
@@ -172,12 +172,12 @@
 			buildActionMask = 2147483647;
 			files = (
 				5AEBD9DB1A8166C600AFF637 /* p2_globals.cpp in Sources */,
+				5AF3D0241A843FB200513A37 /* String_demo3.cpp in Sources */,
 				5AEBD9DA1A8166C600AFF637 /* Ordered_list.cpp in Sources */,
 				5AEBD9DC1A8166C600AFF637 /* Record.cpp in Sources */,
 				5AEBD9DD1A8166C600AFF637 /* String.cpp in Sources */,
 				5AEBD9D81A8166C600AFF637 /* Collection.cpp in Sources */,
 				5AEBD9E21A8166C600AFF637 /* Utility.cpp in Sources */,
-				5AEBD9DE1A8166C600AFF637 /* String_demo1.cpp in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -261,6 +261,12 @@
 		5AD4B7861A7DBAA8007B7660 /* Debug */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
+				CLANG_CXX_LANGUAGE_STANDARD = "c++0x";
+				GCC_C_LANGUAGE_STANDARD = c99;
+				OTHER_CPLUSPLUSFLAGS = (
+					"-Wall",
+					"-fno-elide-constructors",
+				);
 				PRODUCT_NAME = "$(TARGET_NAME)";
 			};
 			name = Debug;
@@ -268,6 +274,12 @@
 		5AD4B7871A7DBAA8007B7660 /* Release */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
+				CLANG_CXX_LANGUAGE_STANDARD = "c++0x";
+				GCC_C_LANGUAGE_STANDARD = c99;
+				OTHER_CPLUSPLUSFLAGS = (
+					"-Wall",
+					"-fno-elide-constructors",
+				);
 				PRODUCT_NAME = "$(TARGET_NAME)";
 			};
 			name = Release;

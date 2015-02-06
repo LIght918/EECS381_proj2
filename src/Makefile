@@ -13,9 +13,11 @@ sdemo3: $(SDEMO3)
 
 $(SDEMO3): String_demo3.o String.o Utility.o
 	$(LD) $(LFLAGS) String_demo3.o String.o Utility.o -o $(SDEMO3)
+	./sdemo3exe >test_output/sdemo3.out 
+	diff test_output/sdemo3.out test_output/sdemo.txt
 
-String_demo3.o: String_demo3.cpp String.h Utility.h
-	$(CC) $(CFLAGS) String_demo3.cpp
+String_demo3.o: test_files/String_demo3.cpp String.h Utility.h
+	$(CC) $(CFLAGS) test_files/String_demo3.cpp
 
 $(PROG): $(OBJS)
 	$(LD) $(LFLAGS) $(OBJS) -o $(PROG)

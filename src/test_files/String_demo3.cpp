@@ -1,7 +1,7 @@
 // Demonstrate monitoring functions for String class
 // NOTICE: See instructions with sample output below
 
-#include "String.h"
+#include "../String.h"
 #include <iostream>
 
 using namespace std;

@@ -66,7 +66,7 @@ int main ()
 		cout << "\"Tom\" is not greater than \"Dick\"" << endl;
 
 	// concatenation functions
-	String target;
+	/*String target;
 	print_info(target);
 	target = target + "abc";
 	print_info(target);
@@ -86,7 +86,7 @@ int main ()
 	print_info(target);
 	target = "123" + target;
 	print_info(target);
-	cout << "Concatenation results: " << target << endl;
+	cout << "Concatenation results: " << target << endl;*/
 	
 	// insert_before
 	String str("0123456789");

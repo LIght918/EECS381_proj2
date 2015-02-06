@@ -47,8 +47,8 @@ in these messages being output, but only because they call a constructor, destru
 or assignment operator as part of their work.
 */
 
-#ifndef STRING_CUSTOM_H
-#define STRING_CUSTOM_H
+#ifndef STRING_H
+#define STRING_H
 
 #include <iosfwd>
 
@@ -159,8 +159,10 @@ private:
     
     // Checks to see if i and len are with in the bounds
     // throws an "Out of Bounds" String Exception
-    void check_bounds( int i, int len ) const;
+    // use len = 0 to just check i
+    inline void check_bounds( int i, int len ) const;
     
+    void grow( int n );
     
 	/* *** Except for those listed below, your choice for private members */
 	
