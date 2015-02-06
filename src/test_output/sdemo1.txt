@@ -1,8 +1,3 @@
-In string "" allocation is 0
-In string "Tom" allocation is 4
-In string "Dick" allocation is 5
-In string "Harry" allocation is 6
-In string "Harry" allocation is 6
 String contains "", length is 0, allocation is 0
 String contains "Tom", length is 3, allocation is 4
 String contains "Dick", length is 4, allocation is 5
@@ -13,7 +8,39 @@ String contains "Harry", length is 5, allocation is 6
 String contains "Dick", length is 4, allocation is 5
 String contains "howdy there, pardner!", length is 21, allocation is 22
 call test_fn with : Harry
-In string "Harry" allocation is 6
 in test_fn:
-In string "Harry" allocation is 6
 test_fn got Harry and is returning: Harry was inside test_fn
+result from test_fn: Harry was inside test_fn
+Tom != Dick
+Tom >= Dick
+Tom >=  "Dick"
+"Tom" is not greater than "Dick"
+String contains "", length is 0, allocation is 0
+String contains "abc", length is 3, allocation is 4
+String contains "abcd", length is 4, allocation is 10
+String contains "abcdefg", length is 7, allocation is 10
+String contains "abcdefghijklmnop", length is 16, allocation is 34
+String contains "abcdefghijklmnopqrs", length is 19, allocation is 34
+String contains "abcdefghijklmnopqrstuv", length is 22, allocation is 23
+String contains "abcdefghijklmnopqrstuvwxyz", length is 26, allocation is 27
+String contains "456abcdefghijklmnopqrstuvwxyz", length is 29, allocation is 30
+String contains "123456abcdefghijklmnopqrstuvwxyz", length is 32, allocation is 33
+Concatenation results: 123456abcdefghijklmnopqrstuvwxyz
+String contains "0123456789", length is 10, allocation is 11
+String contains "01abc23456789", length is 13, allocation is 28
+String contains "01abc23456789abc", length is 16, allocation is 28
+String contains "0123456789", length is 10, allocation is 11
+String contains "56789", length is 5, allocation is 11
+String contains "012345678", length is 9, allocation is 11
+String contains "abc", length is 3, allocation is 4
+String contains "ghij", length is 4, allocation is 5
+String contains "0123456789", length is 10, allocation is 11
+String contains "0129456789", length is 10, allocation is 11
+String input: String contains "", length is 0, allocation is 0
+enter three strings on the same or different lines:
+String input: String contains "short", length is 5, allocation is 10
+String input: String contains "a_medium_length_string_this_is", length is 30, allocation is 46
+String input: String contains "how_about_a_very_long_string_said_Holmes_as_he_filled_his_pipe_and_eyed_his_violin", length is 82, allocation is 94
+String contains "how_about_a_very_long_string_said_Holmes_as_he_filled_his_pipe_and_eyed_his_violin", length is 82, allocation is 83
+String contains "how_about_a_very_long_string_said_Holmes_as_he_filled_his_pipe_and_eyed_his_violin", length is 82, allocation is 83
+Finished

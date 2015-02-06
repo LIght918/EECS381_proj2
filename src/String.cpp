@@ -34,32 +34,34 @@ void String::clear()
         total_allocation -= allocation;
         allocation = 0;
         num_elt = 0;
-        //delete [] cstr;
-        //cstr = &a_null_byte;
+        delete [] cstr;
+        cstr = &a_null_byte;
     }
 }
 
 String::String(const String& original)
 {
-    std::cout << "In string \"" << original.cstr << "\" ";
-    std::cout << "allocation is " << original.allocation << std::endl; 
-    allocation = original.allocation;
+    //std::cout << "In string \"" << original.cstr << "\" ";
+    //std::cout << "allocation is " << original.allocation << std::endl; 
     num_elt = original.num_elt;
     
-    if ( allocation > 0 )
+    
+    if ( num_elt > 0 )
     {
+    	allocation = num_elt + 1;
         cstr = new char[ allocation ];
         strcpy( cstr, original.cstr ); 
     }
     else
     {
+    	allocation = 0;
         cstr = &a_null_byte; 
     }
 }
 
 String::String( const char* cstr_ )
 {
-    std::cout << "In string \"" << cstr_ << "\" ";
+    //std::cout << "In string \"" << cstr_ << "\" ";
     
     num_elt =  strlen( cstr_ );
 
@@ -77,7 +79,7 @@ String::String( const char* cstr_ )
         cstr = &a_null_byte;
         allocation = 0;
     }
-    std::cout << "allocation is " << allocation << std::endl; 
+    //std::cout << "allocation is " << allocation << std::endl; 
     
     number++;
 }
@@ -184,8 +186,11 @@ const char& String::operator[] (int i) const
 // use len = 0 to just check i
 inline void String::check_bounds( int i, int len ) const
 {
-    if ( i < 0  || i + len >= num_elt || len < 0 )
+    if ( i < 0  || i + len > num_elt || len < 0 )
+    {
+    	std::cout << "len: " << len << " i: " << i << " numelt: " << num_elt << std::endl;  
         throw String_exception( "Out of Bounds Exception\n" );
+    }
 }
 
 void String::insert_before(int i, const String& src)
@@ -250,18 +255,11 @@ void String::grow( int n )
 
 String operator+ (const String& lhs, const String& rhs)
 {
-    char* temp_str = new char[ lhs.size() + rhs.size() + 1 ];
+    String* new_string = new String( lhs );
     
-    // load in the lhs string excluding the null term
-    memcpy( temp_str, lhs.c_str(), lhs.size() );
+    *new_string += rhs; 
     
-    // load in the rhs with the null bit after the lhs
-    memcpy( temp_str + lhs.size(), rhs.c_str(), lhs.size() + 1 );
-    
-    String new_string( temp_str );
-    delete [] temp_str;
-    
-    return new_string;
+    return *new_string;
 }
 
 // compare lhs and rhs strings; constructor will convert a C-string literal to a String.
@@ -296,9 +294,11 @@ ostream& operator<< (ostream& os, const String& str)
 istream& operator>> ( istream& is, String& str)
 {
     str.clear();
-    
+    char c; 
     // read in all the leading whitespace
-    while ( isspace( is.get() ) ) ;
+    while ( isspace( c = is.get() ) ) ;
+    
+    str+=c; 
     
     while ( !isspace( is.peek() ) )
     {

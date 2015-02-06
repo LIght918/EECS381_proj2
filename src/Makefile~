@@ -2,7 +2,7 @@ CC = g++
 LD = g++
 
 CFLAGS = -c -pedantic-errors -std=c++11 -Wall -fno-elide-constructors -g
-LFLAGS = -pedantic -Wall
+LFLAGS = -pedantic -Wall -g
 
 OBJS = p2_main.o Record.o Collection.o p2_globals.o String.o Utility.o
 PROG = p2exe
@@ -13,14 +13,18 @@ default: $(PROG)
 sdemo3: $(SDEMO3)
 sdemo1: $(SDEMO1)
 
+test: test.o String.o Utility.o
+	$(LD) $(LFLAGS) test.o String.o Utility.o -o testexe
+
+
 $(SDEMO3): String_demo3.o String.o Utility.o
 	$(LD) $(LFLAGS) String_demo3.o String.o Utility.o -o $(SDEMO3)
-	./sdemo3exe >test_output/sdemo3.out 
+	./sdemo3exe >test_output/sdemo3.txt 
 	diff test_output/sdemo3.out test_output/sdemo3.txt
 
 $(SDEMO1): String_demo1.o String.o Utility.o
 	$(LD) $(LFLAGS) String_demo1.o String.o Utility.o -o $(SDEMO1)
-	./sdemo1exe >test_output/sdemo1.out 
+	./sdemo1exe >test_output/sdemo1.txt 
 	diff test_output/sdemo1.out test_output/sdemo1.txt
 
 String_demo1.o: test_files/String_demo1.cpp String.h Utility.h
@@ -49,6 +53,9 @@ String.o: String.cpp String.h Utility.h
 
 Utility.o: Utility.cpp Utility.h String.h
 	$(CC) $(CFLAGS) Utility.cpp
+
+test.o: test.cpp
+	$(CC) $(CFLAGS) test.cpp
 
 clean:
 	rm -f *.o
