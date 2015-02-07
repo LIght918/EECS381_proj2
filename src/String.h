@@ -160,7 +160,9 @@ private:
     // Checks to see if i and len are with in the bounds
     // throws an "Out of Bounds" String Exception
     // use len = 0 to just check i
-    inline void check_bounds( int i, int len ) const;
+    inline void check_bounds( int i, int len, const char* message ) const;
+    
+    void alloc_copy( const char* cstr_, int size_ );
     
     void grow( int n );
     

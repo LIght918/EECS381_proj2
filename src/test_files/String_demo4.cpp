@@ -3,7 +3,7 @@
 // The String monitoring functions shows what the compiler-supplied
 // functions do with the String class member variable.
 
-#include "String.h"
+#include "../String.h"
 #include <iostream>
 
 using namespace std;

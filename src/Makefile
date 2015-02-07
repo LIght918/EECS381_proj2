@@ -6,32 +6,55 @@ LFLAGS = -pedantic -Wall -g
 
 OBJS = p2_main.o Record.o Collection.o p2_globals.o String.o Utility.o
 PROG = p2exe
-SDEMO3 = sdemo3exe
+
 SDEMO1 = sdemo1exe
+SDEMO2 = sdemo2exe
+SDEMO3 = sdemo3exe
+SDEMO4 = sdemo4exe
 
 default: $(PROG)
-sdemo3: $(SDEMO3)
 sdemo1: $(SDEMO1)
+sdemo2: $(SDEMO2)
+sdemo3: $(SDEMO3)
+sdemo4: $(SDEMO4)
+
+stest: $(SDEMO1) $(SDEMO2) $(SDEMO3) $(SDEMO4)
+	   rm -f $(SDEMO1) $(SDEMO2) $(SDEMO3) $(SDEMO4)
 
 test: test.o String.o Utility.o
 	$(LD) $(LFLAGS) test.o String.o Utility.o -o testexe
 
+$(SDEMO1): String_demo1.o String.o Utility.o
+	$(LD) $(LFLAGS) String_demo1.o String.o Utility.o -o $(SDEMO1)
+	./sdemo1exe >test_output/sdemo1.txt <test_files/sdemo1.in
+	diff test_output/sdemo1.txt test_output/sdemo1.out
+
+$(SDEMO2): String_demo2.o String.o Utility.o
+	$(LD) $(LFLAGS) String_demo2.o String.o Utility.o -o $(SDEMO2)
+	./sdemo2exe >test_output/sdemo2.txt <test_files/sdemo2.in
+	diff test_output/sdemo2.txt test_output/sdemo2.out
 
 $(SDEMO3): String_demo3.o String.o Utility.o
 	$(LD) $(LFLAGS) String_demo3.o String.o Utility.o -o $(SDEMO3)
 	./sdemo3exe >test_output/sdemo3.txt 
-	diff test_output/sdemo3.out test_output/sdemo3.txt
+	diff test_output/sdemo3.txt test_output/sdemo3.out
 
-$(SDEMO1): String_demo1.o String.o Utility.o
-	$(LD) $(LFLAGS) String_demo1.o String.o Utility.o -o $(SDEMO1)
-	./sdemo1exe >test_output/sdemo1.txt <test_files/sdemo1.in
-	diff test_output/sdemo1.out test_output/sdemo1.txt
+$(SDEMO4): String_demo4.o String.o Utility.o
+	$(LD) $(LFLAGS) String_demo4.o String.o Utility.o -o $(SDEMO4)
+	./sdemo4exe >test_output/sdemo4.txt 
+	diff test_output/sdemo4.txt test_output/sdemo4.out
 
 String_demo1.o: test_files/String_demo1.cpp String.h Utility.h
 	$(CC) $(CFLAGS) test_files/String_demo1.cpp
 
+String_demo2.o: test_files/String_demo2.cpp String.h Utility.h
+	$(CC) $(CFLAGS) test_files/String_demo2.cpp
+
 String_demo3.o: test_files/String_demo3.cpp String.h Utility.h
 	$(CC) $(CFLAGS) test_files/String_demo3.cpp
+
+String_demo4.o: test_files/String_demo4.cpp String.h Utility.h
+	$(CC) $(CFLAGS) test_files/String_demo4.cpp
 
 $(PROG): $(OBJS)
 	$(LD) $(LFLAGS) $(OBJS) -o $(PROG)

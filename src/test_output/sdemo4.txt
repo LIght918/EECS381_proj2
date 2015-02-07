@@ -1,0 +1,61 @@
+Ctor: "Xavier"
+Thing 1 with ID 1 constructed
+t1 is: Thing1-"Xavier"
+
+Construct t2 from t1
+Copy ctor: "Xavier"
+t2 is: Thing1-"Xavier"
+
+Construct t3 from an unnamed temporary
+Ctor: "Cugat"
+Thing 2 with ID 2 constructed
+Move ctor: "Cugat"
+Dtor: ""
+t3 is: Thing2-"Cugat"
+
+Construct t4 from a function return value
+in test_fn1:
+Ctor: "Carmen"
+Thing 3 with ID 3 constructed
+Move ctor: "Carmen"
+Dtor: ""
+Move ctor: "Carmen"
+Dtor: ""
+t4 is: Thing3-"Carmen"
+
+Assign t2 = t4
+Copy assign from String: "Carmen"
+t2 now is: Thing3-"Carmen"
+
+Assign t3 to returned function value
+in test_fn1:
+Ctor: "Carmen"
+Thing 4 with ID 4 constructed
+Move ctor: "Carmen"
+Dtor: ""
+Move assign from String: "Carmen"
+Dtor: ""
+t3 now is: Thing4-"Carmen"
+
+Give t3 to a function that returns its by value parameter and set t4 to the returned value
+Copy ctor: "Carmen"
+In test_f2: by-value parameter t is: Thing4-"Carmen"
+Assign by-value parameter t to a different value
+Ctor: "Miranda"
+Thing 5 with ID 5 constructed
+Move assign from String: "Miranda"
+Dtor: ""
+t now is: Thing5-"Miranda"
+Return the by-value parameter by value
+Move ctor: "Miranda"
+Move assign from String: "Miranda"
+Dtor: ""
+Dtor: ""
+t4 now is: Thing5-"Miranda"
+
+
+leaving scope
+Dtor: "Miranda"
+Dtor: "Carmen"
+Dtor: "Carmen"
+Dtor: "Xavier"

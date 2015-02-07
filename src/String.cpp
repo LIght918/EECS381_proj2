@@ -11,9 +11,19 @@
 #include <string.h> // strcpy, strlen and strcmp
 #include <algorithm> // for std::swap
 #include <iostream>
+#include <cassert>
 
 using std::ostream;
 using std::istream;
+using std::cout;
+
+//c_str for error messages
+static const char* Subscript_range = "Subscript out of range\n";
+static const char* Substring_bounds = "Substring bounds invalid\n";
+static const char* Remove_bounds = "Remove bounds invalid\n";
+static const char* Insert_range = "Insertion point out of range\n";
+
+
 
 // init static member variables
 char String::a_null_byte = '\0';	// to hold a null byte for empty string representation
@@ -23,6 +33,8 @@ bool String::messages_wanted = false;	// whether to output constructor/destructo
 
 String::~String() noexcept
 {
+    if ( messages_wanted )
+        cout << "Dtor: \"" << cstr << "\"\n";
     clear();
     number--;
 }
@@ -43,17 +55,13 @@ String::String(const String& original)
 {
     num_elt = original.num_elt;
     
-    if ( num_elt > 0 )
-    {
-    	allocation = num_elt + 1;
-        cstr = new char[ allocation ];
-        strcpy( cstr, original.cstr ); 
-    }
-    else
-    {
-    	allocation = 0;
-        cstr = &a_null_byte; 
-    }
+    alloc_copy(original.cstr, original.num_elt );
+    
+    number++;
+    
+    if ( messages_wanted )
+        cout << "Copy ctor: \"" << cstr << "\"\n";
+    
 }
 
 String::String( const char* cstr_ )
@@ -62,43 +70,23 @@ String::String( const char* cstr_ )
     
     num_elt =  strlen( cstr_ );
 
-    if ( num_elt > 0 )
-    {
-        allocation = num_elt + 1;
-        
-        total_allocation += allocation;
-        cstr = new char[ allocation ];
-        
-        strcpy( cstr , cstr_ );
-    }
-    else
-    {
-        cstr = &a_null_byte;
-        allocation = 0;
-    }
-    //std::cout << "allocation is " << allocation << std::endl; 
-    
+    alloc_copy( cstr_, num_elt );
     number++;
+    
+    if ( messages_wanted )
+        cout << "Ctor: \"" << cstr << "\"\n";
 }
 
 String& String::operator= (const String& rhs)
 {
-    // use the assingment operator with c_str
-    allocation = rhs.allocation;
     num_elt = rhs.num_elt;
     
-    if ( allocation > 0 )
-    {
-    	total_allocation += allocation;
-        
-        cstr = new char[ allocation ];
-        strcpy( cstr , rhs.cstr );
-    }
-    else
-    {
-    	cstr = &a_null_byte;
-        allocation = 0;
-    }
+    alloc_copy( rhs.cstr, rhs.num_elt);
+    
+    number++;
+    
+    if ( messages_wanted )
+        cout << "Copy assign from String: \"" << cstr << "\"\n";
     
     return *this;
 }
@@ -107,23 +95,31 @@ String& String::operator= (const char* rhs)
 {
     num_elt = static_cast<int>( strlen( rhs ) );
     
-    if ( num_elt > 0 )
-    {
-        allocation = num_elt + 1;
-        total_allocation += allocation;
-        
-        cstr = new char[ allocation ];
-        strcpy( cstr , rhs );
-    }
-    else
-    {
-        cstr = &a_null_byte;
-        allocation = 0;
-    }
+    alloc_copy( rhs, num_elt );
+    
+    if ( messages_wanted )
+        cout << "Assign from C-string: \"" << cstr << "\"\n";
     
     return *this;
 }
 
+void String::alloc_copy( const char* cstr_, int size_ )
+{
+    
+    if ( size_ > 0 )
+    {
+        allocation = size_ + 1;
+        total_allocation += allocation;
+        cstr = new char[ allocation ];
+        strcpy( cstr, cstr_ );
+    }
+    else
+    {
+        allocation = 0;
+        cstr = &a_null_byte;
+    }
+}
+        
 String::String(String&& original) noexcept
 {
     allocation = original.allocation;
@@ -132,14 +128,28 @@ String::String(String&& original) noexcept
     
     original.cstr = &a_null_byte;
     original.allocation = 0;
-    original.num_elt = 0; 
+    original.num_elt = 0;
+    
+    if ( messages_wanted )
+        cout << "Move ctor: \"" << cstr << "\"\n";
 }
 
 String& String::operator= (String&& rhs) noexcept
 {
     if ( this != &rhs )
-        swap( rhs );
+    {
+        allocation = rhs.allocation;
+        num_elt = rhs.num_elt;
+        cstr = rhs.cstr;
         
+        rhs.cstr = &a_null_byte;
+        rhs.allocation = 0;
+        rhs.num_elt = 0;
+    }
+    
+    if ( messages_wanted )
+        cout << "Move assign from String: \"" << cstr << "\"\n";
+    
     return *this;
 }
 
@@ -153,7 +163,7 @@ void String::swap(String& other) noexcept
 
 String String::substring(int i, int len) const
 {
-    check_bounds( i, len );
+    check_bounds( i, len, Substring_bounds );
     
     char* sub_string = new char[ len + 1 ];
     memcpy( sub_string, cstr + i , len );
@@ -163,13 +173,12 @@ String String::substring(int i, int len) const
     String new_string( sub_string );
     
     delete[] sub_string;
-    
     return new_string;
 }
 
 void String::remove(int i, int len)
 {
-    check_bounds( i, len );
+    check_bounds( i, len, Remove_bounds );
     
     // + 1 to get the null term
     memmove( cstr + i , cstr + i + len,  num_elt - i - len + 1 );
@@ -180,14 +189,14 @@ void String::remove(int i, int len)
 
 char& String::operator[] (int i)
 {
-    check_bounds( i, 0 );
+    check_bounds( i, 0, Subscript_range );
     
     return cstr[ i ];
 }
 
 const char& String::operator[] (int i) const
 {
-    check_bounds( i, 0 );
+    check_bounds( i, 0, Subscript_range );
     
     return cstr[ i ];
 }
@@ -195,16 +204,18 @@ const char& String::operator[] (int i) const
 // Checks to see if i and len are with in the bounds
 // throws an "Out of Bounds" String Exception
 // use len = 0 to just check i
-inline void String::check_bounds( int i, int len ) const
+inline void String::check_bounds( int i, int len, const char* message ) const
 {
     if ( i < 0  || i + len > num_elt || len < 0 )
     {
-        throw String_exception( "Out of Bounds Exception\n" );
+        throw String_exception( message );
     }
 }
 
 void String::insert_before(int i, const String& src)
 {
+    check_bounds( i, 0, Insert_range );
+    
     if ( allocation < num_elt + src.size() + 1 )
         grow( src.size() );
     
@@ -226,27 +237,24 @@ String& String::operator += (char rhs)
     return *this;
 }
 
+String& String::operator += (const String& rhs)
+{
+    *this += rhs.cstr;
+    return *this;
+}
+        
 String& String::operator += (const char* rhs)
 {
     int rhs_lenght = strlen( rhs );
     
-    
     if ( allocation < num_elt + 1 + rhs_lenght )
     {
-    	std::cout << "grow n is " << rhs_lenght << std::endl; 
         grow( rhs_lenght );
     }
     memcpy( cstr + num_elt, rhs, rhs_lenght );
     
     num_elt += rhs_lenght;
     cstr[ num_elt ] = '\0';
-    return *this;
-}
-
-
-String& String::operator += (const String& rhs)
-{
-    *this += rhs.cstr;
     return *this;
 }
 
@@ -262,17 +270,18 @@ void String::grow( int n )
         delete [] cstr;
     
     cstr = new_array;
+    total_allocation += new_alloc - allocation;
     allocation = new_alloc;
 }
 
 
 String operator+ (const String& lhs, const String& rhs)
 {
-    String* new_string = new String( lhs );
+    String new_string( lhs );
     
-    *new_string += rhs; 
+    new_string += rhs;
     
-    return *new_string;
+    return new_string;
 }
 
 // compare lhs and rhs strings; constructor will convert a C-string literal to a String.
@@ -311,7 +320,7 @@ istream& operator>> ( istream& is, String& str)
     // read in all the leading whitespace
     while ( isspace( c = is.get() ) ) ;
     
-    str+=c; 
+    str += c;
     
     while ( !isspace( is.peek() ) )
     {

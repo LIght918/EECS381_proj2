@@ -16,15 +16,15 @@ Tom >= Dick
 Tom >=  "Dick"
 "Tom" is not greater than "Dick"
 String contains "", length is 0, allocation is 0
-String contains "abc", length is 3, allocation is 4
-String contains "abcd", length is 4, allocation is 10
-String contains "abcdefg", length is 7, allocation is 10
+String contains "abc", length is 3, allocation is 8
+String contains "abcd", length is 4, allocation is 8
+String contains "abcdefg", length is 7, allocation is 8
 String contains "abcdefghijklmnop", length is 16, allocation is 34
 String contains "abcdefghijklmnopqrs", length is 19, allocation is 34
-String contains "abcdefghijklmnopqrstuv", length is 22, allocation is 23
-String contains "abcdefghijklmnopqrstuvwxyz", length is 26, allocation is 27
-String contains "456abcdefghijklmnopqrstuvwxyz", length is 29, allocation is 30
-String contains "123456abcdefghijklmnopqrstuvwxyz", length is 32, allocation is 33
+String contains "abcdefghijklmnopqrstuv", length is 22, allocation is 46
+String contains "abcdefghijklmnopqrstuvwxyz", length is 26, allocation is 54
+String contains "456abcdefghijklmnopqrstuvwxyz", length is 29, allocation is 60
+String contains "123456abcdefghijklmnopqrstuvwxyz", length is 32, allocation is 66
 Concatenation results: 123456abcdefghijklmnopqrstuvwxyz
 String contains "0123456789", length is 10, allocation is 11
 String contains "01abc23456789", length is 13, allocation is 28

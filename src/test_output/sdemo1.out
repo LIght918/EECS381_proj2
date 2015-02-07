@@ -38,11 +38,8 @@ String contains "0123456789", length is 10, allocation is 11
 String contains "0129456789", length is 10, allocation is 11
 String input: String contains "", length is 0, allocation is 0
 enter three strings on the same or different lines:
-short
 String input: String contains "short", length is 5, allocation is 10
-a_medium_length_string_this_is
 String input: String contains "a_medium_length_string_this_is", length is 30, allocation is 46
-how_about_a_very_long_string_said_Holmes_as_he_filled_his_pipe_and_eyed_his_violin
 String input: String contains "how_about_a_very_long_string_said_Holmes_as_he_filled_his_pipe_and_eyed_his_violin", length is 82, allocation is 94
 String contains "how_about_a_very_long_string_said_Holmes_as_he_filled_his_pipe_and_eyed_his_violin", length is 82, allocation is 83
 String contains "how_about_a_very_long_string_said_Holmes_as_he_filled_his_pipe_and_eyed_his_violin", length is 82, allocation is 83

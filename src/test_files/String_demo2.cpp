@@ -1,5 +1,5 @@
 // demonstrate exception handling
-#include "String.h"
+#include "../String.h"
 #include <iostream>
 
 using namespace std;
@@ -29,27 +29,28 @@ int main ()
 		if(code == "quit")
 			break;
 		cin >> i >> j;
-		if (!cin) {
+		if (!cin) 
+		{
 			throw User_screwed_up();
-			}
-	
+		}
+
 		if(code == "[]") {
-			cout << "Before: " << str << endl;
+			cout << "\nBefore: " << str << endl;
 			str[i] = str[j];
 			cout << "After:  " << str << endl;
 			}
 		else if(code == "sub") {
-			cout << "Source: " << str << endl;
+			cout << "\nSource: " << str << endl;
 			String sub = str.substring(i, j);
 			cout << "Result: " << sub << endl;
 			}
 		else if(code == "rem") {
-			cout << "Before: " << str << endl;
+			cout << "\nBefore: " << str << endl;
 			str.remove(i, j);
 			cout << "After:  " << str << endl;
 			}
 		else if(code == "ins") {
-			cout << "Before: " << str << endl;
+			cout << "\nBefore: " << str << endl;
 			String ins("abc");
 			for(int k = 0; k < j; k++)
 				str.insert_before(i, ins);
