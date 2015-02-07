@@ -333,7 +333,17 @@ istream& operator>> ( istream& is, String& str)
 
 
 
-
+istream& getline( istream& is, String& str)
+{
+    str.clear();
+    
+    while( is.peek() != '\n' && is.good() )
+    {
+        str += is.get();
+    }
+    
+    return is;
+}
 
 
 
