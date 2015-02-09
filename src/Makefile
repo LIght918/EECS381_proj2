@@ -48,8 +48,8 @@ $(SDEMO4): String_demo4.o String.o Utility.o
 
 $(OCdemo): Ordered_list_demo.o Utility.o p2_globals.o Ordered_list.h
 	$(LD) $(LFLAGS) Ordered_list_demo.o Utility.o p2_globals.o -o $(OCdemo)
-	./$(OCdemo) >test_output/OCdemo1.txt <test_files/OCdemo.in
-	diff test_output/OCdemo1.txt test_output/OCdemo1.out
+	./$(OCdemo) >test_output/OCdemo.txt <test_files/OCdemo.in
+	diff test_output/OCdemo.txt test_output/OCdemo.out
 
 String_demo1.o: test_files/String_demo1.cpp String.h Utility.h
 	$(CC) $(CFLAGS) test_files/String_demo1.cpp
@@ -63,7 +63,7 @@ String_demo3.o: test_files/String_demo3.cpp String.h Utility.h
 String_demo4.o: test_files/String_demo4.cpp String.h Utility.h
 	$(CC) $(CFLAGS) test_files/String_demo4.cpp
 
-Ordered_list_demo.o: test_files/Ordered_list_demo.cpp String.h Utility.h
+Ordered_list_demo.o: test_files/Ordered_list_demo.cpp String.h Utility.h Ordered_list.h
 	$(CC) $(CFLAGS) test_files/Ordered_list_demo.cpp
 
 $(PROG): $(OBJS)

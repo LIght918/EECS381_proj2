@@ -171,7 +171,7 @@ public:
 
 	// Return true if the list is empty
 	bool empty() const
-    { return !num_elt; }
+    { return num_elt == 0; }
 		
 private:
 	// Node is a nested class that is private to the Ordered_list<T, OF> class.
@@ -364,6 +364,7 @@ template<typename T, typename OF>
 Ordered_list<T, OF>::Ordered_list():num_elt(0),first(nullptr),last(nullptr)
 { }
 
+//TODO try catch 
 template<typename T, typename OF>
 Ordered_list<T, OF>::Ordered_list(const Ordered_list& original)
 {
@@ -371,15 +372,25 @@ Ordered_list<T, OF>::Ordered_list(const Ordered_list& original)
     
     Node* cur_node = original.first;
     
+    if( cur_node == nullptr )
+    {
+    	first = last = nullptr;
+    	return; 
+    }
+
     Node* new_node = new Node( original.first->datum , nullptr, nullptr );
     Node* prev_new_node = new_node;
     
+    first = new_node; 
+
     do
     {
         new_node = new Node( cur_node->datum, prev_new_node, nullptr );
         prev_new_node->next = new_node;
         
     } while ( (cur_node = cur_node->next) );
+
+    last = new_node; 
 }
 
 template<typename T, typename OF>
@@ -437,14 +448,15 @@ Ordered_list<T, OF>::~Ordered_list()
 template<typename T, typename OF>
 void Ordered_list<T, OF>::clear() noexcept
 {
-    int i = 0;
-    while ( !empty() )
+    while ( begin() != end() )
     {
-        std::cout << i++ << std::endl;
+        std::cout << num_elt << std::endl;
         erase( begin() );
     }
 }
 
+
+using namespace std; //TODO Remove
 template<typename T, typename OF>
 void Ordered_list<T, OF>::insert(const T& new_datum)
 {
@@ -460,10 +472,13 @@ void Ordered_list<T, OF>::insert(const T& new_datum)
         first = new_node;
         last  = new_node;
     }
-    else if ( ordering_f( new_datum, cur_node->datum ) < 0 )
-    {
+    else if ( !ordering_f(cur_node->datum, new_datum ))
+    {	
+
+    	cout << "ovveride " <<endl; 
         /* check to see if it should be the first node */
         first = new Node( new_datum, nullptr, cur_node );
+        cur_node->prev = first; 
     }
     else
     {
@@ -473,9 +488,11 @@ void Ordered_list<T, OF>::insert(const T& new_datum)
         {
             /* if the new data should be on the left of cur_node
              insert it on the left */
-            if ( ordering_f( new_datum, cur_node->datum ) <= 0  )
+
+            if ( !ordering_f( cur_node->datum, new_datum )  )
             {
-                new_node = new Node( new_datum, cur_node->prev, cur_node->next );
+
+                new_node = new Node( new_datum, cur_node->prev, cur_node );
                 
                 cur_node->prev->next = new_node ;
                 cur_node->prev = new_node ;
@@ -483,6 +500,7 @@ void Ordered_list<T, OF>::insert(const T& new_datum)
             }
         }
         
+       
         /* if we make it out of the loop we know it must go at the end */
         cur_node = last ;
         cur_node->next = last = new Node( new_datum, last, nullptr );
@@ -500,14 +518,17 @@ void Ordered_list<T, OF>::insert(T&& new_datum)
     /* if the container is empty add it as first and last */
     if ( first == nullptr )
     {
-        new_node = new Node( new_datum, nullptr, nullptr );
+        new_node = new Node( std::move(new_datum), nullptr, nullptr );
         first = new_node;
         last  = new_node;
     }
-    else if ( ordering_f( new_datum, cur_node->datum ) < 0 )
-    {
+    else if ( !ordering_f(std::move(cur_node->datum), new_datum ))
+    {	
+
+    	cout << "ovveride " <<endl; 
         /* check to see if it should be the first node */
-        first = new Node( std::move( new_datum ), nullptr, cur_node );
+        first = new Node( std::move(new_datum), nullptr, cur_node );
+        cur_node->prev = first; 
     }
     else
     {
@@ -517,9 +538,10 @@ void Ordered_list<T, OF>::insert(T&& new_datum)
         {
             /* if the new data should be on the left of cur_node
              insert it on the left */
-            if ( ordering_f( new_datum, cur_node->datum ) <= 0  )
+            if ( !ordering_f( cur_node->datum, new_datum )  )
             {
-                new_node = new Node( std::move( new_datum ), cur_node->prev, cur_node->next );
+
+                new_node = new Node( std::move(new_datum), cur_node->prev, cur_node);
                 
                 cur_node->prev->next = new_node ;
                 cur_node->prev = new_node ;
@@ -527,9 +549,10 @@ void Ordered_list<T, OF>::insert(T&& new_datum)
             }
         }
         
+       
         /* if we make it out of the loop we know it must go at the end */
         cur_node = last ;
-        cur_node->next = last = new Node( std::move( new_datum ), last, nullptr );
+        cur_node->next = last = new Node( std::move(new_datum), last, nullptr );
     }
 }
 
@@ -537,24 +560,19 @@ template<typename T, typename OF>
 typename Ordered_list<T, OF>::Iterator Ordered_list<T, OF>::find(const T& probe_datum) const noexcept
 {
     Node* cur_node;
-    int comp_value;
     
     cur_node = first;
     
     while ( cur_node != NULL )
-    {
-        comp_value = ordering_f( probe_datum, cur_node->datum );
-        
-        if ( comp_value == 0  )
+    {   
+        if( !ordering_f( cur_node->datum, probe_datum ) )
         {
-            /* if we have found it just return */
-            return Iterator( cur_node );
-        }
-        else if ( comp_value < 0 )
-        {
+        	if( !ordering_f( probe_datum , cur_node->datum ) )
+        		// if we have found it just return
+            	return Iterator( cur_node );
+
             return Iterator();
         }
-        
         /* increment the pointer */
         cur_node = cur_node->next;
     }
@@ -568,12 +586,13 @@ void Ordered_list<T, OF>::erase(Iterator it) noexcept
 {
     assert( it.node_ptr );
     Node* node_remove = it.node_ptr;
-    if( node_remove->next )
+
+    if( node_remove->next != nullptr )
         node_remove->next->prev = node_remove->prev;
     else
         last = node_remove->prev;
         
-    if ( node_remove->prev )
+    if ( node_remove->prev != nullptr )
         node_remove->prev->next = node_remove->next;
     else
         first = node_remove->next;
