@@ -13,25 +13,15 @@ Dtor: "Good morning!"
 Demonstrate initialization and copy and move construction
 Initialize a with String a = "Hello";
 Ctor: "Hello"
-Move ctor: "Hello"
-Dtor: ""
 Construct b from a
 Copy ctor: "Hello"
 Construct c from a + b
 Copy ctor: "Hello"
-Move ctor: "HelloHello"
-Dtor: ""
-Move ctor: "HelloHello"
-Dtor: ""
 a:Hello b:Hello c:HelloHello
 Construct d from function return value
 in test_fn2
 Ctor: "xxx"
 test_fn2 returning: xxx
-Move ctor: "xxx"
-Dtor: ""
-Move ctor: "xxx"
-Dtor: ""
 d:xxx
 4 Strings using 38 bytes
 Dtor: "xxx"
@@ -53,8 +43,6 @@ Copy ctor: "Good Morning!"
 Dtor: ""
 Assign from a + b
 Copy ctor: "Good Morning!"
-Move ctor: "Good Morning!Good Morning!"
-Dtor: ""
 Move assign from String:  "Good Morning!Good Morning!"
 Dtor: ""
 a:Good Morning! b:Good Morning! c:Good Morning!Good Morning!
@@ -83,20 +71,16 @@ Dtor: ""
 function call result: !!!
 Call the same function with an argument of a + b
 Copy ctor: "initial a"
-Move ctor: "initial a!!!"
-Dtor: ""
-Move ctor: "initial a!!!"
 test_fn3 got:initial a!!!
-5 Strings using 50 bytes
+4 Strings using 50 bytes
 Assign from C-string:  "!!!"
 Ctor: "!!!"
 Dtor: "initial a!!!"
 test_fn3 returning: !!!
-5 Strings using 28 bytes
+4 Strings using 28 bytes
 Move ctor: "!!!"
 Move assign from String:  "!!!"
 Dtor: "initial c"
-Dtor: ""
 Dtor: ""
 function call result: !!!
 a:initial a b:!!! c:!!!

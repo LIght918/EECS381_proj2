@@ -75,11 +75,15 @@ String::String( const char* cstr_ )
 
 String& String::operator= (const String& rhs)
 {
-    if ( messages_wanted )
-        cout << "Copy assign from String:  \"" << rhs << "\"\n";
+    if( this != &rhs )
+        clear();
+        
+    num_elt = rhs.num_elt;
     
-    String temp( rhs );
-    swap(  temp );
+    alloc_copy( rhs.cstr, rhs.num_elt);
+    
+    if ( messages_wanted )
+        cout << "Copy assign from String:  \"" << cstr << "\"\n";
     
     return *this;
 }
@@ -87,10 +91,9 @@ String& String::operator= (const String& rhs)
 String& String::operator= (const char* rhs)
 {
     if ( messages_wanted )
-        cout << "Assign from C-string:  \"" << rhs << "\"\n";
-    
-    String temp( rhs );
-    swap(  temp );
+        cout << "Assign from C-string:  \"" << cstr << "\"\n";
+        
+    swap( String( rhs ));
     
     return *this;
 }
@@ -129,10 +132,20 @@ String::String(String&& original) noexcept
 
 String& String::operator= (String&& rhs) noexcept
 {
-     if ( messages_wanted )
-        cout << "Move assign from String:  \"" << rhs << "\"\n";
+    if ( this != &rhs )
+    {
+        clear();
+        allocation = rhs.allocation;
+        num_elt = rhs.num_elt;
+        cstr = rhs.cstr;
+        
+        rhs.cstr = &a_null_byte;
+        rhs.allocation = 0;
+        rhs.num_elt = 0;
+    }
     
-    swap( rhs ); 
+    if ( messages_wanted )
+        cout << "Move assign from String:  \"" << cstr << "\"\n";
     
     return *this;
 }

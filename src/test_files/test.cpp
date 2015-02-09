@@ -16,20 +16,18 @@ String test_fn3(String s);
 int main()
 {
 	String::set_messages_wanted(true);
-	
 	{
-	    cout << "\nDemonstrate assignment operators" << endl;
-	    String a, b, c;
-	    cout << "Assign from a C-string" << endl;
-	    // assign from a C-string
-	    a = "Good Morning!";
-	    cout << "Assign from another String" << endl;
-	    b = a;
-	    cout << "Assign from a + b" << endl;
-	    c = a + b;
-	    cout << "a:" << a << " b:" << b << " c:" << c << endl;
-	    print_String_info();
-	}
+    cout << "\nDemonstrate call and return by value" << endl;
+    String a("initial a"), b("initial b"), c("initial c");
+	cout << "Call a function with a call-by-value argument that returns that same variable" << endl;
+	b = test_fn3(a);
+	cout << "function call result: " << b << endl;
+    cout << "Call the same function with an argument of a + b" << endl;
+    c = test_fn3(a + b);
+    cout << "function call result: " << c << endl;
+    cout << "a:" << a << " b:" << b << " c:" << c << endl;
+    print_String_info();
+    }
 	return 0; 
 }
 

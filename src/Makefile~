@@ -1,7 +1,7 @@
 CC = g++
 LD = g++
 
-CFLAGS = -c -pedantic-errors -std=c++11 -Wall -g
+CFLAGS = -c -pedantic-errors -std=c++11 -Wall -fno-elide-constructors -g
 LFLAGS = -pedantic -Wall -g
 
 OBJS = p2_main.o Record.o Collection.o p2_globals.o String.o Utility.o
@@ -39,7 +39,7 @@ $(SDEMO2): String_demo2.o String.o Utility.o
 $(SDEMO3): String_demo3.o String.o Utility.o
 	$(LD) $(LFLAGS) -fno-elide-constructors String_demo3.o String.o Utility.o -o $(SDEMO3)
 	./sdemo3exe >test_output/sdemo3.txt 
-	diff test_output/sdemo3.txt test_output/sdemo3a.out
+	diff test_output/sdemo3a.txt test_output/sdemo3.out
 
 $(SDEMO4): String_demo4.o String.o Utility.o
 	$(LD) $(LFLAGS) String_demo4.o String.o Utility.o -o $(SDEMO4)
