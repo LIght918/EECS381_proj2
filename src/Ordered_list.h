@@ -98,6 +98,7 @@ Remove this comment too. */
 #include <iostream>
 #include <utility>
 #include <cassert>
+#include <new> // bad_alloc 
 
 // These Function Object Class templates make it simple to use a class's less-than operator
 // for the ordering function in declaring an Ordered_list container.
@@ -368,11 +369,19 @@ template<typename T, typename OF>
 Ordered_list<T, OF>::Ordered_list(const Ordered_list& original) : num_elt(0),first(nullptr),last(nullptr)
 {
     Node* cur_node = original.last;
-    
-    while( cur_node )
+    try
     {
-        insert( cur_node->datum );
-        cur_node = cur_node->prev;
+        while( cur_node )
+        {
+            insert( cur_node->datum );
+            cur_node = cur_node->prev;
+        }
+    }
+    
+    catch ( const std::bad_alloc& )
+    {
+        clear();
+        throw;
     }
 }
 
@@ -430,8 +439,6 @@ void Ordered_list<T, OF>::insert(const T& new_datum)
     Node* cur_node = first;
     Node* new_node;
     
-    num_elt++;
-    
     /* if the container is empty add it as first and last */
     if ( first == nullptr )
     {
@@ -470,6 +477,7 @@ void Ordered_list<T, OF>::insert(const T& new_datum)
         cur_node = last ;
         cur_node->next = last = new Node( new_datum, last, nullptr );
     }
+    num_elt++;
 }
 
 template<typename T, typename OF>

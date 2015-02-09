@@ -17,6 +17,8 @@ using std::ifstream;
 using std::ostream;
 
 static const char* const Invalid_data_message = "Invalid data found in file!";
+static const char* const Record_Coll = "Record is already a member in the collection!";
+static const char* const Record_Not_Coll = "Record is not a member in the collection!";
 
 Collection::Collection(const String& name_): name(name_) {}
 
@@ -47,6 +49,9 @@ Collection::Collection( ifstream& is, const Ordered_list<Record*, Less_than_ptr<
 
 void Collection::add_member(Record* record_ptr)
 {
+    if ( lib.find( record_ptr ) == lib.end() )
+        throw Error( Record_Coll );
+    
     lib.insert( record_ptr );
 }
 
@@ -58,6 +63,9 @@ bool Collection::is_member_present(Record* record_ptr) const
 void Collection::remove_member(Record* record_ptr)
 {
     auto it = lib.find( record_ptr );
+    
+    if ( it == lib.end() )
+        throw Error( Record_Not_Coll );
     
     lib.erase( it );
 }

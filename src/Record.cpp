@@ -12,17 +12,19 @@
 #include <iostream>
 #include <fstream>
 
-#define MAX_RATING 5
-#define MIN_RATING 1
+static const int Max_Rating =  5;
+static const int Min_Rating =  1;
 
 using std::ifstream;
 using std::ostream;
+
+static const char* const Invalid_data_message = "Invalid data found in file!";
 
 int Record::ID_counter = 0 ;
 int Record::backup_ID_counter = 0;
 
 Record::Record(const String& medium_, const String& title_):
-                ID( ++ID_counter ),title( title_ ),medium( medium_ ) {}
+            ID( ++ID_counter ),title( title_ ),medium( medium_ ) {}
 
 Record::Record( const String& title_ ):ID(0), title(title_){}
 
@@ -32,11 +34,16 @@ Record::Record( ifstream& is )
 {
     is >> ID >> medium >> rating;
     read_title( is, title );
+    if ( !is.good() )
+    {
+        // TODO check this works
+        throw Error( Invalid_data_message );
+    }
 }
 
 void Record::set_rating(int rating_)
 {
-    if ( rating_ < MIN_RATING || rating_ > MAX_RATING )
+    if ( rating_ < Min_Rating || rating_ >  Max_Rating )
     {
         throw Error( "Rating is out of range!" );
     }

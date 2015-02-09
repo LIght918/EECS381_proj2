@@ -7,8 +7,8 @@
 //
 
 #include "String.h"
-#include <stdlib.h> // memcpy and memmove
-#include <string.h> // strcpy, strlen and strcmp
+#include <cstdlib> // memcpy and memmove
+#include <cstring> // strcpy, strlen and strcmp
 #include <algorithm> // for std::swap
 #include <iostream>
 #include <cassert>

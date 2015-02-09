@@ -8,12 +8,11 @@
 
 /* Begin PBXBuildFile section */
 		5AEBD9D81A8166C600AFF637 /* Collection.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 5AEBD9C51A8166C600AFF637 /* Collection.cpp */; };
-		5AEBD9DA1A8166C600AFF637 /* Ordered_list.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 5AEBD9C81A8166C600AFF637 /* Ordered_list.cpp */; };
 		5AEBD9DB1A8166C600AFF637 /* p2_globals.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 5AEBD9CA1A8166C600AFF637 /* p2_globals.cpp */; };
 		5AEBD9DC1A8166C600AFF637 /* Record.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 5AEBD9CC1A8166C600AFF637 /* Record.cpp */; };
 		5AEBD9DD1A8166C600AFF637 /* String.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 5AEBD9CE1A8166C600AFF637 /* String.cpp */; };
 		5AEBD9E21A8166C600AFF637 /* Utility.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 5AEBD9D61A8166C600AFF637 /* Utility.cpp */; };
-		5AF3D0241A843FB200513A37 /* String_demo3.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 5AEBD9D41A8166C600AFF637 /* String_demo3.cpp */; };
+		5AF3D02C1A896F6D00513A37 /* p2_main.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 5AEBD9E31A816A1A00AFF637 /* p2_main.cpp */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXCopyFilesBuildPhase section */
@@ -33,7 +32,6 @@
 		5AEBD9C51A8166C600AFF637 /* Collection.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = Collection.cpp; path = src/Collection.cpp; sourceTree = "<group>"; };
 		5AEBD9C61A8166C600AFF637 /* Collection.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = Collection.h; path = src/Collection.h; sourceTree = "<group>"; };
 		5AEBD9C71A8166C600AFF637 /* Makefile */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.make; name = Makefile; path = src/Makefile; sourceTree = "<group>"; };
-		5AEBD9C81A8166C600AFF637 /* Ordered_list.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = Ordered_list.cpp; path = src/Ordered_list.cpp; sourceTree = "<group>"; };
 		5AEBD9C91A8166C600AFF637 /* Ordered_list.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = Ordered_list.h; path = src/Ordered_list.h; sourceTree = "<group>"; };
 		5AEBD9CA1A8166C600AFF637 /* p2_globals.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = p2_globals.cpp; path = src/p2_globals.cpp; sourceTree = "<group>"; };
 		5AEBD9CB1A8166C600AFF637 /* p2_globals.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = p2_globals.h; path = src/p2_globals.h; sourceTree = "<group>"; };
@@ -49,7 +47,6 @@
 		5AEBD9D61A8166C600AFF637 /* Utility.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = Utility.cpp; path = src/Utility.cpp; sourceTree = "<group>"; };
 		5AEBD9D71A8166C600AFF637 /* Utility.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = Utility.h; path = src/Utility.h; sourceTree = "<group>"; };
 		5AEBD9E31A816A1A00AFF637 /* p2_main.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = p2_main.cpp; path = src/p2_main.cpp; sourceTree = "<group>"; };
-		5AEBD9E41A816A1A00AFF637 /* p2_main.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = p2_main.h; path = src/p2_main.h; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -69,10 +66,8 @@
 				5AEBD9C51A8166C600AFF637 /* Collection.cpp */,
 				5AEBD9C61A8166C600AFF637 /* Collection.h */,
 				5AEBD9C71A8166C600AFF637 /* Makefile */,
-				5AEBD9C81A8166C600AFF637 /* Ordered_list.cpp */,
 				5AEBD9C91A8166C600AFF637 /* Ordered_list.h */,
 				5AEBD9E31A816A1A00AFF637 /* p2_main.cpp */,
-				5AEBD9E41A816A1A00AFF637 /* p2_main.h */,
 				5AEBD9CA1A8166C600AFF637 /* p2_globals.cpp */,
 				5AEBD9CB1A8166C600AFF637 /* p2_globals.h */,
 				5AEBD9CC1A8166C600AFF637 /* Record.cpp */,
@@ -172,12 +167,11 @@
 			buildActionMask = 2147483647;
 			files = (
 				5AEBD9DB1A8166C600AFF637 /* p2_globals.cpp in Sources */,
-				5AF3D0241A843FB200513A37 /* String_demo3.cpp in Sources */,
-				5AEBD9DA1A8166C600AFF637 /* Ordered_list.cpp in Sources */,
 				5AEBD9DC1A8166C600AFF637 /* Record.cpp in Sources */,
 				5AEBD9DD1A8166C600AFF637 /* String.cpp in Sources */,
 				5AEBD9D81A8166C600AFF637 /* Collection.cpp in Sources */,
 				5AEBD9E21A8166C600AFF637 /* Utility.cpp in Sources */,
+				5AF3D02C1A896F6D00513A37 /* p2_main.cpp in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
