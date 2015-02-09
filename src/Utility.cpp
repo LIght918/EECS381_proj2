@@ -7,3 +7,28 @@
 //
 
 #include "Utility.h"
+#include "String.h"
+#include <sstream>
+#include <iostream>
+
+using std::istream;
+using std::stringstream;
+
+void read_title( istream& is, String& title )
+{
+    String temp;
+    getline( is , title );
+    
+
+    stringstream ss;
+    ss << title;
+    
+    ss >> title;
+    
+    while ( ss.good() )
+    {
+        ss >> temp;
+        title += temp + " ";
+    }
+}
+

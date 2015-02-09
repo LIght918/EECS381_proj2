@@ -1,7 +1,11 @@
 #ifndef  UTILITY_H
 #define UTILITY_H
 
+#include <iosfwd>
+
 /* Utility functions, constants, and classes used by more than one other modules */
+
+class String;
 
 // a simple class for error exceptions - msg points to a C-string error message
 struct Error {
@@ -11,6 +15,9 @@ struct Error {
 	const char* msg;
 };
 
-/*  *** add any other functions or declarations here and define in Utility.cpp */
+
+
+void read_title( std::istream& is, String& title );
+
 
 #endif

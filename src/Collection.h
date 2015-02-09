@@ -59,8 +59,8 @@ public:
 	bool operator< (const Collection& rhs) const
     { return name < rhs.get_name(); }
 	
-	/* *** fill in a friend declaration for the output operator */
-		
+    friend std::ostream& operator<< (std::ostream& os, const Collection& collection);
+    
 private:
 	/* *** the member information must be kept in a container of Record* - name is your choice */
     Ordered_list<Record*, Less_than_ptr<Record*>> lib;

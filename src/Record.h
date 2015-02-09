@@ -55,13 +55,13 @@ public:
 		{ return title; }
 	// reset the ID counter
 	static void reset_ID_counter() 
-		{/*** fill this in */}
+        { ID_counter = 0; }
 	// save the ID counter in another static member variable
 	static void save_ID_counter() 
-		{/*** fill this in */}
+        { backup_ID_counter = ID_counter; }
 	// restore the ID counter from the value in the other static member variable
 	static void restore_ID_counter() 
-		{/*** fill this in */}
+		{ ID_counter = backup_ID_counter;}
 	// if the rating is not between 1 and 5 inclusive, an exception is thrown
 	void set_rating(int rating_);
 	
@@ -72,16 +72,17 @@ public:
 	// This operator defines the order relation between Records, based just on the last title
 	bool operator< (const Record& rhs) const
     { return title < rhs.get_title(); }
-
-	/* *** fill in a friend declaration for the output operator */
+    
+    friend std::ostream& operator<< (std::ostream& os, const Record& record);
 
 private:
 	static int ID_counter; // must be initialized to zero.
-	/* *** another static member variable for the backup value of iD_counter; name is your choice */
-	/* *** other private members are your choice */
+    static int backup_ID_counter;
 
     int ID;
     String title;
+    String medium;
+    int rating = 0;
 };
 
 

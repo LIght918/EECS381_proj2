@@ -17,11 +17,11 @@ using std::ostream;
 using std::istream;
 using std::cout;
 
-//c_str for error messages
-static const char* Subscript_range = "Subscript out of range\n";
-static const char* Substring_bounds = "Substring bounds invalid\n";
-static const char* Remove_bounds = "Remove bounds invalid\n";
-static const char* Insert_range = "Insertion point out of range\n";
+//global c_str for error messages
+static const char* const Subscript_range = "Subscript out of range";
+static const char* const Substring_bounds = "Substring bounds invalid";
+static const char* const Remove_bounds = "Remove bounds invalid";
+static const char* const Insert_range  = "Insertion point out of range";
 
 
 
@@ -66,8 +66,6 @@ String::String(const String& original)
 
 String::String( const char* cstr_ )
 {
-    //std::cout << "In string \"" << cstr_ << "\" ";
-    
     num_elt =  strlen( cstr_ );
 
     alloc_copy( cstr_, num_elt );
@@ -79,11 +77,12 @@ String::String( const char* cstr_ )
 
 String& String::operator= (const String& rhs)
 {
+    if( this != &rhs )
+        clear();
+        
     num_elt = rhs.num_elt;
     
     alloc_copy( rhs.cstr, rhs.num_elt);
-    
-    number++;
     
     if ( messages_wanted )
         cout << "Copy assign from String: \"" << cstr << "\"\n";
@@ -93,6 +92,7 @@ String& String::operator= (const String& rhs)
 
 String& String::operator= (const char* rhs)
 {
+    clear();
     num_elt = static_cast<int>( strlen( rhs ) );
     
     alloc_copy( rhs, num_elt );
@@ -105,7 +105,6 @@ String& String::operator= (const char* rhs)
 
 void String::alloc_copy( const char* cstr_, int size_ )
 {
-    
     if ( size_ > 0 )
     {
         allocation = size_ + 1;
@@ -130,6 +129,8 @@ String::String(String&& original) noexcept
     original.allocation = 0;
     original.num_elt = 0;
     
+    number++;
+    
     if ( messages_wanted )
         cout << "Move ctor: \"" << cstr << "\"\n";
 }
@@ -138,6 +139,7 @@ String& String::operator= (String&& rhs) noexcept
 {
     if ( this != &rhs )
     {
+        clear();
         allocation = rhs.allocation;
         num_elt = rhs.num_elt;
         cstr = rhs.cstr;
@@ -248,9 +250,8 @@ String& String::operator += (const char* rhs)
     int rhs_lenght = strlen( rhs );
     
     if ( allocation < num_elt + 1 + rhs_lenght )
-    {
         grow( rhs_lenght );
-    }
+    
     memcpy( cstr + num_elt, rhs, rhs_lenght );
     
     num_elt += rhs_lenght;
@@ -315,8 +316,8 @@ ostream& operator<< (ostream& os, const String& str)
 
 istream& operator>> ( istream& is, String& str)
 {
+    char c;
     str.clear();
-    char c; 
     // read in all the leading whitespace
     while ( isspace( c = is.get() ) ) ;
     
@@ -341,7 +342,6 @@ istream& getline( istream& is, String& str)
     {
         str += is.get();
     }
-    
     return is;
 }
 

@@ -33,7 +33,7 @@ Dtor: ""
 Move ctor: "xxx"
 Dtor: ""
 d:xxx
--1 Strings using 38 bytes
+4 Strings using 38 bytes
 Dtor: "xxx"
 Dtor: "HelloHello"
 Dtor: "Hello"
@@ -54,7 +54,7 @@ Dtor: ""
 Move assign from String: "Good Morning!Good Morning!"
 Dtor: ""
 a:Good Morning! b:Good Morning! c:Good Morning!Good Morning!
--2 Strings using 82 bytes
+3 Strings using 82 bytes
 Dtor: "Good Morning!Good Morning!"
 Dtor: "Good Morning!"
 Dtor: "Good Morning!"
@@ -66,10 +66,10 @@ Ctor: "initial c"
 Call a function with a call-by-value argument that returns that same variable
 Copy ctor: "initial a"
 test_fn3 got:initial a
--1 Strings using 40 bytes
+4 Strings using 40 bytes
 Assign from C-string: "!!!"
 test_fn3 returning: !!!
--1 Strings using 44 bytes
+4 Strings using 34 bytes
 Move ctor: "!!!"
 Move assign from String: "!!!"
 Dtor: ""
@@ -81,10 +81,10 @@ Move ctor: "initial a!!!"
 Dtor: ""
 Move ctor: "initial a!!!"
 test_fn3 got:initial a!!!
--3 Strings using 70 bytes
+5 Strings using 50 bytes
 Assign from C-string: "!!!"
 test_fn3 returning: !!!
--3 Strings using 74 bytes
+5 Strings using 28 bytes
 Move ctor: "!!!"
 Move assign from String: "!!!"
 Dtor: ""
@@ -92,7 +92,7 @@ Dtor: ""
 Dtor: ""
 function call result: !!!
 a:initial a b:!!! c:!!!
--6 Strings using 74 bytes
+3 Strings using 18 bytes
 Dtor: "!!!"
 Dtor: "!!!"
 Dtor: "initial a"
@@ -100,22 +100,22 @@ Dtor: "initial a"
 Demonstrate move construction and assignment using std::move
 Ctor: "aaa"
 a has aaa
--8 Strings using 60 bytes
+1 Strings using 4 bytes
 move construct b from a
 Move ctor: "aaa"
 a now has "", b has "aaa"
--8 Strings using 60 bytes
+2 Strings using 4 bytes
 now move assign a from b
 Move assign from String: "aaa"
 a now has "aaa", b has ""
--8 Strings using 60 bytes
+2 Strings using 4 bytes
 Dtor: ""
 Dtor: "aaa"
 
 Demonstrate swaping
 Ctor: "aaa"
 Ctor: "bbb"
--8 Strings using 64 bytes
+2 Strings using 8 bytes
 a now has "aaa", b has "bbb"
 let's swap their guts with String::swap!
 a now has "bbb", b has "aaa"
@@ -125,6 +125,6 @@ Move assign from String: "aaa"
 Move assign from String: "bbb"
 Dtor: ""
 a now has "aaa", b has "bbb"
--9 Strings using 64 bytes
+2 Strings using 8 bytes
 Dtor: "bbb"
 Dtor: "aaa"

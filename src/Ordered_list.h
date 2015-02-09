@@ -302,7 +302,6 @@ public:
 private:
 	// member variable declaration for the ordering function object.
 	OF ordering_f;  // declares an object of OF type
-	/* *** other private member variables and functions are your choice. */
     int num_elt;
     Node* first;
     Node* last;
@@ -569,8 +568,8 @@ template<typename T, typename OF>
 void Ordered_list<T, OF>::swap(Ordered_list & other) noexcept
 {
     std::swap( num_elt, other.num_elt );
-    std::swap( first,   other.first );
-    std::swap( last,    other.last );
+    std::swap( first,   other.first   );
+    std::swap( last,    other.last    );
 }
 
 #endif

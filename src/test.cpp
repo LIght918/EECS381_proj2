@@ -21,11 +21,11 @@ int main()
     String a("initial a"), b("initial b"), c("initial c");
 	cout << "Call a function with a call-by-value argument that returns that same variable" << endl;
 	b = test_fn3(a);
-	cout << "function call result: " << b << endl;
+	/*cout << "function call result: " << b << endl;
     cout << "Call the same function with an argument of a + b" << endl;
     c = test_fn3(a + b);
     cout << "function call result: " << c << endl;
-    cout << "a:" << a << " b:" << b << " c:" << c << endl;
+    cout << "a:" << a << " b:" << b << " c:" << c << endl;*/
     print_String_info();
     }
 	return 0; 
