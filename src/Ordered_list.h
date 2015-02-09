@@ -366,31 +366,15 @@ Ordered_list<T, OF>::Ordered_list():num_elt(0),first(nullptr),last(nullptr)
 
 //TODO try catch 
 template<typename T, typename OF>
-Ordered_list<T, OF>::Ordered_list(const Ordered_list& original)
+Ordered_list<T, OF>::Ordered_list(const Ordered_list& original) : num_elt(0),first(nullptr),last(nullptr)
 {
-    num_elt = original.num_elt;
+    Node* cur_node = original.last;
     
-    Node* cur_node = original.first;
-    
-    if( cur_node == nullptr )
+    while( cur_node )
     {
-    	first = last = nullptr;
-    	return; 
+        insert( cur_node->datum );
+        cur_node = cur_node->prev;
     }
-
-    Node* new_node = new Node( original.first->datum , nullptr, nullptr );
-    Node* prev_new_node = new_node;
-    
-    first = new_node; 
-
-    do
-    {
-        new_node = new Node( cur_node->datum, prev_new_node, nullptr );
-        prev_new_node->next = new_node;
-        
-    } while ( (cur_node = cur_node->next) );
-
-    last = new_node; 
 }
 
 template<typename T, typename OF>
@@ -406,35 +390,20 @@ Ordered_list<T, OF>& Ordered_list<T, OF>::operator= (const Ordered_list& rhs)
 {
     clear();
     
-    num_elt = rhs.num_elt;
+    Node* cur_node = rhs.last;
     
-    Node* cur_node = rhs.first;
-    
-    Node* new_node = new Node( rhs.first->datum , nullptr, nullptr );
-    Node* prev_new_node = new_node;
-    
-    do
+    while( cur_node )
     {
-        new_node = new Node( cur_node->datum, prev_new_node, nullptr );
-        prev_new_node->next = new_node;
-        
-    } while ( (cur_node = cur_node->next) );
-    
+        insert( cur_node->datum );
+        cur_node = cur_node->prev;
+    }
     return *this;
 }
 
 template<typename T, typename OF>
 Ordered_list<T, OF>& Ordered_list<T, OF>::operator= (Ordered_list&& rhs) noexcept
 {
-    clear();
-    
-    num_elt = rhs.num_elt;
-    first = rhs.first;
-    last = rhs.last;
-    
-    rhs.num_elt = 0;
-    rhs.first = rhs.last = nullptr;
-    
+    swap( rhs ); 
     return *this;
 }
 
@@ -450,7 +419,6 @@ void Ordered_list<T, OF>::clear() noexcept
 {
     while ( begin() != end() )
     {
-        std::cout << num_elt << std::endl;
         erase( begin() );
     }
 }
@@ -473,9 +441,7 @@ void Ordered_list<T, OF>::insert(const T& new_datum)
         last  = new_node;
     }
     else if ( !ordering_f(cur_node->datum, new_datum ))
-    {	
-
-    	cout << "ovveride " <<endl; 
+    {
         /* check to see if it should be the first node */
         first = new Node( new_datum, nullptr, cur_node );
         cur_node->prev = first; 
@@ -523,9 +489,7 @@ void Ordered_list<T, OF>::insert(T&& new_datum)
         last  = new_node;
     }
     else if ( !ordering_f(std::move(cur_node->datum), new_datum ))
-    {	
-
-    	cout << "ovveride " <<endl; 
+    {
         /* check to see if it should be the first node */
         first = new Node( std::move(new_datum), nullptr, cur_node );
         cur_node->prev = first; 
