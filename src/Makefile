@@ -11,12 +11,14 @@ SDEMO1 = sdemo1exe
 SDEMO2 = sdemo2exe
 SDEMO3 = sdemo3exe
 SDEMO4 = sdemo4exe
+OCdemo = ocdemoexe
 
 default: $(PROG)
 sdemo1: $(SDEMO1)
 sdemo2: $(SDEMO2)
 sdemo3: $(SDEMO3)
 sdemo4: $(SDEMO4)
+OCdemo: $(OCdemo)
 
 stest: $(SDEMO1) $(SDEMO2) $(SDEMO3) $(SDEMO4)
 	   rm -f $(SDEMO1) $(SDEMO2) $(SDEMO3) $(SDEMO4)
@@ -44,6 +46,11 @@ $(SDEMO4): String_demo4.o String.o Utility.o
 	./sdemo4exe >test_output/sdemo4.txt 
 	diff test_output/sdemo4.txt test_output/sdemo4.out
 
+$(OCdemo): Ordered_list_demo.o Utility.o p2_globals.o Ordered_list.h
+	$(LD) $(LFLAGS) Ordered_list_demo.o Utility.o p2_globals.o -o $(OCdemo)
+	./$(OCdemo) >test_output/OCdemo1.txt <test_files/OCdemo.in
+	diff test_output/OCdemo1.txt test_output/OCdemo1.out
+
 String_demo1.o: test_files/String_demo1.cpp String.h Utility.h
 	$(CC) $(CFLAGS) test_files/String_demo1.cpp
 
@@ -55,6 +62,9 @@ String_demo3.o: test_files/String_demo3.cpp String.h Utility.h
 
 String_demo4.o: test_files/String_demo4.cpp String.h Utility.h
 	$(CC) $(CFLAGS) test_files/String_demo4.cpp
+
+Ordered_list_demo.o: test_files/Ordered_list_demo.cpp String.h Utility.h
+	$(CC) $(CFLAGS) test_files/Ordered_list_demo.cpp
 
 $(PROG): $(OBJS)
 	$(LD) $(LFLAGS) $(OBJS) -o $(PROG)

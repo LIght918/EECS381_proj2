@@ -95,6 +95,7 @@ Remove this comment too. */
 #define ORDERED_LIST_H
 
 #include "p2_globals.h"
+#include <iostream>
 #include <utility>
 #include <cassert>
 
@@ -166,7 +167,7 @@ public:
 
 	// Return the number of nodes in the list
 	int size() const
-    { return size; }
+    { return num_elt; }
 
 	// Return true if the list is empty
 	bool empty() const
@@ -179,7 +180,8 @@ private:
     // to make it clear when the node count should be incremented or decremented.
     // Because it is a private member of Ordered_list, it has no public interface,
     // so you can add members of your choice, such as special constructors.
-	struct Node {
+	struct Node
+    {
 		// Construct a node containing a copy of the T data; the copy operation
         // might throw an exception, so the basic and strong guarantee should
         // be satisfied as long as the copy is attempted before the containing list is modified.
@@ -206,7 +208,7 @@ private:
 		T datum;
         Node* prev; // pointer to previous node
 		Node* next; // pointer to next node
-		};
+    };
 		
 public:
 	// An Iterator object designates a Node by encapsulating a pointer to the Node, 
@@ -216,47 +218,43 @@ public:
 	class Iterator {
 		public:
 			// default initialize to nullptr
-			Iterator() :
-				node_ptr(nullptr)
-				{}
+			Iterator() : node_ptr(nullptr) {}
 				
 			// Overloaded dereferencing operators
 			// * returns a reference to the datum in the pointed-to node
 			T& operator* () const
-				{/* fill this in */}
+                { return (node_ptr->datum); }
 			// operator-> simply returns the address of the data in the pointed-to node.
 			// *** For this operator, the compiler reapplies the -> operator with the returned pointer.
 			/* *** definition supplied here because it is a special-case of operator overloading. */
 			T* operator-> () const
-				{assert(node_ptr); return &(node_ptr->datum);}
+				{ assert(node_ptr); return &(node_ptr->datum); }
 
 			// prefix ++ operator moves the iterator forward to point to the next node
 			// and returns this iterator.
 			Iterator& operator++ ()	// prefix
-				{	
-					/* fill this in */
+				{
+                    node_ptr = node_ptr->next;
+                    return *this;
 				}
 			// postfix ++ operator saves the current address for the pointed-to node,
 			// moves this iterator to point to the next node, and returns
 			// an interator pointing to the node at the saved address.
 			Iterator operator++ (int)	// postfix
-				{	
-					/* fill this in */
+				{
+                    Node* temp = node_ptr;
+                    node_ptr = node_ptr->next;
+					return temp;
 				}
 			// Iterators are equal if they point to the same node
 			bool operator== (Iterator rhs) const
-				{/* fill this in */}
+                { return node_ptr == rhs.node_ptr; }
 			bool operator!= (Iterator rhs) const
-				{/* fill this in */}
+				{ return node_ptr != rhs.node_ptr; }
 	
-			// *** here, declare the outer Ordered_list class as a friend		
-
+            friend class Ordered_list;
 		private:
-			/* *** define here a private constructor for Iterator that takes a Node* parameter.
-			Ordered_list can use this to create Iterators conveniently initialized to point to a Node.
-			It is private because the client code can't and shouldn't be using it - it isn't even supposed to
-			know about the Node objects.  */
-			/* *** you may have other private member functions, but not member variables */
+            Iterator( Node* node_ptr_ ): node_ptr( node_ptr_ ) {};
 			Node* node_ptr;
 		};
 	// end of nested Iterator class declaration
@@ -264,7 +262,7 @@ public:
 	// Return an iterator pointing to the first node;
     // If the list is empty, the Iterator points to "past the end"
 	Iterator begin() const
-		{/* fill this in */}
+        { return Iterator( first ); }
 	// return an iterator pointing to "past the end"
 	Iterator end() const
 		{return Iterator(nullptr);}	// same as next pointer of last node
@@ -306,6 +304,8 @@ private:
 	OF ordering_f;  // declares an object of OF type
 	/* *** other private member variables and functions are your choice. */
     int num_elt;
+    Node* first;
+    Node* last;
 };
 
 // These function templates are given two iterators, usually .begin() and .end(),
@@ -326,14 +326,16 @@ void apply(IT first, IT last, F function)
 template<typename IT, typename F, typename A>
 void apply_arg(IT first, IT last, F function, A arg)
 {
-// *** fill this in.
+    for(; first != last; ++first)
+        function(*first, arg);
 }
 
 // this function templates accept the second argument by reference - useful for streams.
 template<typename IT, typename F, typename A>
 void apply_arg_ref(IT first, IT last, F function, A& arg)
 {
-// *** fill this in.
+    for(; first != last; ++first)
+        function(*first, arg);
 }
 
 // the function must return true/false; apply the function until true is returned,
@@ -352,18 +354,240 @@ bool apply_if(IT first, IT last, F function)
 template<typename IT, typename F, typename A>
 bool apply_if_arg(IT first, IT last, F function, A arg)
 {
-// *** fill this in.
+    for(; first != last; ++first)
+        if( function(*first, arg) )
+            return true;
+    return false;
 }
-
-/* *** Put your code for Ordered_list member functions here, defined outside the class declaration.
-For example:
 
 template<typename T, typename OF>
-void Ordered_list<T, OF>::erase(Iterator it)
+Ordered_list<T, OF>::Ordered_list():num_elt(0),first(nullptr),last(nullptr)
+{ }
+
+template<typename T, typename OF>
+Ordered_list<T, OF>::Ordered_list(const Ordered_list& original)
 {
-	your code here
+    num_elt = original.num_elt;
+    
+    Node* cur_node = original.first;
+    
+    Node* new_node = new Node( original.first->datum , nullptr, nullptr );
+    Node* prev_new_node = new_node;
+    
+    do
+    {
+        new_node = new Node( cur_node->datum, prev_new_node, nullptr );
+        prev_new_node->next = new_node;
+        
+    } while ( (cur_node = cur_node->next) );
 }
- 
-*/
+
+template<typename T, typename OF>
+Ordered_list<T, OF>::Ordered_list(Ordered_list&& original) noexcept :
+ num_elt( original.num_elt ), first( original.first ), last( original.last )
+{
+    original.num_elt = 0;
+    original.first = original.last = nullptr;
+}
+
+template<typename T, typename OF>
+Ordered_list<T, OF>& Ordered_list<T, OF>::operator= (const Ordered_list& rhs)
+{
+    clear();
+    
+    num_elt = rhs.num_elt;
+    
+    Node* cur_node = rhs.first;
+    
+    Node* new_node = new Node( rhs.first->datum , nullptr, nullptr );
+    Node* prev_new_node = new_node;
+    
+    do
+    {
+        new_node = new Node( cur_node->datum, prev_new_node, nullptr );
+        prev_new_node->next = new_node;
+        
+    } while ( (cur_node = cur_node->next) );
+    
+    return *this;
+}
+
+template<typename T, typename OF>
+Ordered_list<T, OF>& Ordered_list<T, OF>::operator= (Ordered_list&& rhs) noexcept
+{
+    clear();
+    
+    num_elt = rhs.num_elt;
+    first = rhs.first;
+    last = rhs.last;
+    
+    rhs.num_elt = 0;
+    rhs.first = rhs.last = nullptr;
+    
+    return *this;
+}
+
+
+template<typename T, typename OF>
+Ordered_list<T, OF>::~Ordered_list()
+{
+    clear();
+}
+
+template<typename T, typename OF>
+void Ordered_list<T, OF>::clear() noexcept
+{
+    int i = 0;
+    while ( !empty() )
+    {
+        std::cout << i++ << std::endl;
+        erase( begin() );
+    }
+}
+
+template<typename T, typename OF>
+void Ordered_list<T, OF>::insert(const T& new_datum)
+{
+    Node* cur_node = first;
+    Node* new_node;
+    
+    num_elt++;
+    
+    /* if the container is empty add it as first and last */
+    if ( first == nullptr )
+    {
+        new_node = new Node( new_datum, nullptr, nullptr );
+        first = new_node;
+        last  = new_node;
+    }
+    else if ( ordering_f( new_datum, cur_node->datum ) < 0 )
+    {
+        /* check to see if it should be the first node */
+        first = new Node( new_datum, nullptr, cur_node );
+    }
+    else
+    {
+        /* its ok to increment it first time since we know it
+         isn't the first element */
+        while ( ( cur_node = cur_node->next ) )
+        {
+            /* if the new data should be on the left of cur_node
+             insert it on the left */
+            if ( ordering_f( new_datum, cur_node->datum ) <= 0  )
+            {
+                new_node = new Node( new_datum, cur_node->prev, cur_node->next );
+                
+                cur_node->prev->next = new_node ;
+                cur_node->prev = new_node ;
+                return ;
+            }
+        }
+        
+        /* if we make it out of the loop we know it must go at the end */
+        cur_node = last ;
+        cur_node->next = last = new Node( new_datum, last, nullptr );
+    }
+}
+
+template<typename T, typename OF>
+void Ordered_list<T, OF>::insert(T&& new_datum)
+{
+    Node* cur_node = first;
+    Node* new_node;
+    
+    num_elt++;
+    
+    /* if the container is empty add it as first and last */
+    if ( first == nullptr )
+    {
+        new_node = new Node( new_datum, nullptr, nullptr );
+        first = new_node;
+        last  = new_node;
+    }
+    else if ( ordering_f( new_datum, cur_node->datum ) < 0 )
+    {
+        /* check to see if it should be the first node */
+        first = new Node( std::move( new_datum ), nullptr, cur_node );
+    }
+    else
+    {
+        /* its ok to increment it first time since we know it
+         isn't the first element */
+        while ( ( cur_node = cur_node->next ) )
+        {
+            /* if the new data should be on the left of cur_node
+             insert it on the left */
+            if ( ordering_f( new_datum, cur_node->datum ) <= 0  )
+            {
+                new_node = new Node( std::move( new_datum ), cur_node->prev, cur_node->next );
+                
+                cur_node->prev->next = new_node ;
+                cur_node->prev = new_node ;
+                return ;
+            }
+        }
+        
+        /* if we make it out of the loop we know it must go at the end */
+        cur_node = last ;
+        cur_node->next = last = new Node( std::move( new_datum ), last, nullptr );
+    }
+}
+
+template<typename T, typename OF>
+typename Ordered_list<T, OF>::Iterator Ordered_list<T, OF>::find(const T& probe_datum) const noexcept
+{
+    Node* cur_node;
+    int comp_value;
+    
+    cur_node = first;
+    
+    while ( cur_node != NULL )
+    {
+        comp_value = ordering_f( probe_datum, cur_node->datum );
+        
+        if ( comp_value == 0  )
+        {
+            /* if we have found it just return */
+            return Iterator( cur_node );
+        }
+        else if ( comp_value < 0 )
+        {
+            return Iterator();
+        }
+        
+        /* increment the pointer */
+        cur_node = cur_node->next;
+    }
+    
+    /* if we make it out of the loop the date_ptr was not in the container */
+    return Iterator();
+}
+
+template<typename T, typename OF>
+void Ordered_list<T, OF>::erase(Iterator it) noexcept
+{
+    assert( it.node_ptr );
+    Node* node_remove = it.node_ptr;
+    if( node_remove->next )
+        node_remove->next->prev = node_remove->prev;
+    else
+        last = node_remove->prev;
+        
+    if ( node_remove->prev )
+        node_remove->prev->next = node_remove->next;
+    else
+        first = node_remove->next;
+    
+    num_elt--;
+    delete node_remove;
+}
+
+template<typename T, typename OF>
+void Ordered_list<T, OF>::swap(Ordered_list & other) noexcept
+{
+    std::swap( num_elt, other.num_elt );
+    std::swap( first,   other.first );
+    std::swap( last,    other.last );
+}
 
 #endif
