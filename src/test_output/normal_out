@@ -55,9 +55,9 @@ Lists: 3
 List Nodes: 10
 Strings: 10 with 89 bytes total
 
-Enter command: Library contains 4 records:
-3: DVD u Mars Attacks 
-4: DVD u Much Ado about Nothin 
+Enter command: Library contains 5 records:
+3: DVD u Mars Attacks!
+4: DVD u Much Ado about Nothing
 2: VHS u Showboat
 1: DVD u Tobruk
 5: VHS u Zorba the Greek
@@ -72,4 +72,113 @@ Enter command: Rating for record 4 changed to 5
 
 Enter command: 1: DVD 1 Tobruk
 
+Enter command: Record 3 Mars Attacks! deleted
+
+Enter command: Memory allocations:
+Records: 4
+Collections: 0
+Lists: 3
+List Nodes: 8
+Strings: 8 with 71 bytes total
+
+Enter command: Library contains 4 records:
+4: DVD 5 Much Ado about Nothing
+2: VHS 4 Showboat
+1: DVD 1 Tobruk
+5: VHS u Zorba the Greek
+
+Enter command: Catalog is empty
+
+Enter command: Collection favorites added
+
+Enter command: Member 5 Zorba the Greek added
+
+Enter command: Member 2 Showboat added
+
+Enter command: Collection literary added
+
+Enter command: Collection favorites contains:
+2: VHS 4 Showboat
+5: VHS u Zorba the Greek
+
+Enter command: Catalog contains 2 collections:
+Collection favorites contains:
+2: VHS 4 Showboat
+5: VHS u Zorba the Greek
+Collection literary contains:None
+
+Enter command: Member 4 Much Ado about Nothing added
+
+Enter command: Member 5 Zorba the Greek added
+
+Enter command: Catalog contains 2 collections:
+Collection favorites contains:
+2: VHS 4 Showboat
+5: VHS u Zorba the Greek
+Collection literary contains:
+4: DVD 5 Much Ado about Nothing
+5: VHS u Zorba the Greek
+
+Enter command: Record 6 added
+
 Enter command: 
+
+Data saved
+
+Enter command: All collections deleted
+
+Enter command: All records deleted
+
+Enter command: Memory allocations:
+Records: 0
+Collections: 0
+Lists: 3
+List Nodes: 0
+Strings: 0 with 0 bytes total
+
+Enter command: Invalid data found in file!
+
+Enter command: Memory allocations:
+Records: 5
+Collections: 0
+Lists: 3
+List Nodes: 10
+Strings: 10 with 130 bytes total
+
+Enter command: Record 7 added
+
+Enter command: Library contains 6 records:
+6: DVD u Bleak House
+4: DVD 5 Much Ado about Nothing
+2: VHS 4 Showboat
+7: VHS u The Money Pit
+1: DVD 1 Tobruk
+5: VHS u Zorba the Greek
+
+Enter command: Catalog is empty
+
+Enter command: No collection with that name!
+
+Enter command: Catalog is empty
+
+Enter command: No collection with that name!
+
+Enter command: Catalog is empty
+
+Enter command: Memory allocations:
+Records: 6
+Collections: 0
+Lists: 3
+List Nodes: 12
+Strings: 12 with 148 bytes total
+
+Enter command: All data deleted
+
+Enter command: Memory allocations:
+Records: 0
+Collections: 0
+Lists: 3
+List Nodes: 0
+Strings: 0 with 0 bytes total
+
+Enter command: Done

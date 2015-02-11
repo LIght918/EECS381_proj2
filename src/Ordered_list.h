@@ -471,6 +471,7 @@ void Ordered_list<T, OF>::insert(const T& new_datum)
                 
                 cur_node->prev->next = new_node ;
                 cur_node->prev = new_node ;
+                num_elt++;
                 return ;
             }
         }

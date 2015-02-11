@@ -343,7 +343,8 @@ static void delete_record( Ordered_list<Record*, Less_than_ptr<Record*>>& lib_ti
                           Ordered_list<Collection>& catalog)
 {
     auto it_title = get_record_by_title( lib_title );
-    
+    Record* rec = *it_title; 
+
     for ( auto it : catalog )
     {
         if( it.is_member_present( *it_title ) )
@@ -355,13 +356,15 @@ static void delete_record( Ordered_list<Record*, Less_than_ptr<Record*>>& lib_ti
     Record prode_ID( (*it_title)->get_ID() );
     auto it_ID = lib_ID.find( &prode_ID );
     
+    cout << "Record "<< (*it_ID)->get_ID() << " " << (*it_ID)->get_title() << " deleted\n";
+
     lib_ID.erase( it_ID );
     lib_title.erase( it_title );
     
-    cout << "Record "<< (*it_ID)->get_ID() << " " << (*it_ID)->get_title() << " deleted\n";
+    
     
     //clean up mem
-    delete *it_title;
+    delete rec;
 }
 
 static void delete_collection( Ordered_list<Collection>& catalog )

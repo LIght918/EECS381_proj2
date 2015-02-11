@@ -85,14 +85,14 @@ ostream& operator<< (ostream& os, const Collection& collection)
     os << "Collection " << collection.name << " contains:" ;
     if ( collection.empty() )
     {
-        cout << "None\n";
+        cout << " None\n";
     }
     else
     {
         cout << "\n"; 
         for ( auto it = collection.lib.begin(); it != collection.lib.end() ; ++it )
         {
-            os << (*it)->get_title() << "\n" ;
+            os << (**it) ;
         }
     }
     return os;
