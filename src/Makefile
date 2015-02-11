@@ -23,8 +23,9 @@ OCdemo: $(OCdemo)
 stest: $(SDEMO1) $(SDEMO2) $(SDEMO3) $(SDEMO4)
 	   rm -f $(SDEMO1) $(SDEMO2) $(SDEMO3) $(SDEMO4)
 
-test: test.o String.o Utility.o
-	$(LD) $(LFLAGS) -fno-elide-constructors test.o String.o Utility.o -o testexe
+test: $(PROG)
+	./p2exe <test_files/normal_in.txt >test_output/normal_out
+	diff test_output/normal_out test_output/normal_out.txt
 
 $(SDEMO1): String_demo1.o String.o Utility.o
 	$(LD) $(LFLAGS) String_demo1.o String.o Utility.o -o $(SDEMO1)

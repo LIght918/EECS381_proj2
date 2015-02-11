@@ -211,6 +211,7 @@ void String::insert_before(int i, const String& src)
     
     num_elt += src.num_elt;
 }
+
 String& String::operator += (char rhs)
 {
     if ( allocation < num_elt + 2 )
@@ -302,7 +303,7 @@ istream& operator>> ( istream& is, String& str)
     char c;
     str.clear();
     // read in all the leading whitespace
-    while ( isspace( c = is.get() ) ) ;
+    while ( isspace( c = is.get() ) && is.good() ) ;
     
     str += c;
     

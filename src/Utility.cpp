@@ -8,27 +8,50 @@
 
 #include "Utility.h"
 #include "String.h"
+#include <cstring>
 #include <sstream>
 #include <iostream>
 
 using std::istream;
 using std::stringstream;
+using std::cout;
+using std::endl; 
+
+static const char* const Inval_Title = "Could not read a title!";
+
 
 void read_title( istream& is, String& title )
 {
-    String temp;
-    getline( is , title );
+    title.clear();
+    char c;
+    bool last_was_space = true;
     
-
-    stringstream ss;
-    ss << title;
-    
-    ss >> title;
-    
-    while ( ss.good() )
+    while( is.peek() != '\n' && is.good() )
     {
-        ss >> temp;
-        title += temp + " ";
+        if ( isspace( c = is.get() ) )
+        {
+            if ( !last_was_space )
+            {
+                title += c;
+            }
+            
+            last_was_space = true;
+        }
+        else
+        {
+            last_was_space = false;
+            title += c;
+        }
+    }
+    
+    if ( isspace( title[ title.size() - 1 ] ) )
+    {
+        title.remove( title.size() - 1 , 1 );
+    }
+    
+    if ( title.size() <= 0  )
+    {
+        throw Error( Inval_Title );
     }
 }
 

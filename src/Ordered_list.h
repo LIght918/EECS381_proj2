@@ -116,7 +116,7 @@ struct Less_than_ref {
 // Compare two pointers (T is a pointer type) using *T's operator<
 template<typename T>
 struct Less_than_ptr {
-	bool operator()(const T p1, const T p2) const {return *p1 < *p2;}
+	bool operator()(const T p1, const T p2) const { return *p1 < *p2;}
 };
 
 
@@ -362,13 +362,13 @@ bool apply_if_arg(IT first, IT last, F function, A arg)
 
 template<typename T, typename OF>
 Ordered_list<T, OF>::Ordered_list():num_elt(0),first(nullptr),last(nullptr)
-{ }
+{ ++g_Ordered_list_count; }
 
-//TODO try catch 
 template<typename T, typename OF>
 Ordered_list<T, OF>::Ordered_list(const Ordered_list& original) : num_elt(0),first(nullptr),last(nullptr)
 {
     Node* cur_node = original.last;
+    ++g_Ordered_list_count;
     try
     {
         while( cur_node )
@@ -378,11 +378,12 @@ Ordered_list<T, OF>::Ordered_list(const Ordered_list& original) : num_elt(0),fir
         }
     }
     
-    catch ( const std::bad_alloc& )
+    catch ( ... )
     {
         clear();
         throw;
     }
+    
 }
 
 template<typename T, typename OF>
@@ -391,6 +392,7 @@ Ordered_list<T, OF>::Ordered_list(Ordered_list&& original) noexcept :
 {
     original.num_elt = 0;
     original.first = original.last = nullptr;
+    ++g_Ordered_list_count;
 }
 
 template<typename T, typename OF>
@@ -419,6 +421,7 @@ Ordered_list<T, OF>& Ordered_list<T, OF>::operator= (Ordered_list&& rhs) noexcep
 template<typename T, typename OF>
 Ordered_list<T, OF>::~Ordered_list()
 {
+    --g_Ordered_list_count;
     clear();
 }
 
@@ -530,9 +533,7 @@ void Ordered_list<T, OF>::insert(T&& new_datum)
 template<typename T, typename OF>
 typename Ordered_list<T, OF>::Iterator Ordered_list<T, OF>::find(const T& probe_datum) const noexcept
 {
-    Node* cur_node;
-    
-    cur_node = first;
+    Node* cur_node = first;
     
     while ( cur_node != NULL )
     {   

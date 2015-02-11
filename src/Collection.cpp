@@ -49,7 +49,7 @@ Collection::Collection( ifstream& is, const Ordered_list<Record*, Less_than_ptr<
 
 void Collection::add_member(Record* record_ptr)
 {
-    if ( lib.find( record_ptr ) == lib.end() )
+    if ( lib.find( record_ptr ) != lib.end() )
         throw Error( Record_Coll );
     
     lib.insert( record_ptr );
@@ -72,18 +72,29 @@ void Collection::remove_member(Record* record_ptr)
 
 void Collection::save( ostream& os) const
 {
-    os << *this;
+    os << name << " " << lib.size() << "\n";
+    
+    for ( auto it = lib.begin(); it != lib.end() ; ++it )
+    {
+        os << (*it)->get_title() << "\n" ;
+    }
 }
 
 ostream& operator<< (ostream& os, const Collection& collection)
 {
-    os << collection.name << " " << collection.lib.size() << "\n";
-    
-    for ( auto it = collection.lib.begin(); it != collection.lib.end() ; ++it )
+    os << "Collection " << collection.name << " contains:" ;
+    if ( collection.empty() )
     {
-        os << (*it)->get_title() << "\n" ;
+        cout << "None\n";
     }
-    
+    else
+    {
+        cout << "\n"; 
+        for ( auto it = collection.lib.begin(); it != collection.lib.end() ; ++it )
+        {
+            os << (*it)->get_title() << "\n" ;
+        }
+    }
     return os;
 }
 

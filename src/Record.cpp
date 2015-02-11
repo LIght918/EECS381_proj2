@@ -28,7 +28,7 @@ Record::Record(const String& medium_, const String& title_):
 
 Record::Record( const String& title_ ):ID(0), title(title_){}
 
-Record::Record( int ID_ ):ID(0){}
+Record::Record( int ID_ ):ID( ID_){}
 
 Record::Record( ifstream& is )
 {
@@ -36,7 +36,6 @@ Record::Record( ifstream& is )
     read_title( is, title );
     if ( !is.good() )
     {
-        // TODO check this works
         throw Error( Invalid_data_message );
     }
 }
@@ -60,7 +59,7 @@ ostream& operator<< ( ostream& os, const Record& record)
 {
     os << record.ID << ": " << record.medium ;
     
-    if ( record.rating )
+    if ( record.rating == 0 )
         os << " u ";
     else
         os << " " << record.rating << " ";
