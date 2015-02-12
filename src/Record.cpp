@@ -17,11 +17,15 @@ static const int Min_Rating =  1;
 
 using std::ifstream;
 using std::ostream;
+using std::istream;
 
 static const char* const Invalid_data_message = "Invalid data found in file!";
+static const char* const Inval_Title = "Could not read a title!";
 
 int Record::ID_counter = 0 ;
 int Record::backup_ID_counter = 0;
+
+static void read_title( istream& is, String& title );
 
 Record::Record(const String& medium_, const String& title_):
             ID( ++ID_counter ),title( title_ ),medium( medium_ ) {}
@@ -32,8 +36,18 @@ Record::Record( int ID_ ):ID( ID_){}
 
 Record::Record( ifstream& is )
 {
+    if ( is.eof() )
+    {
+        throw Error( Invalid_data_message );
+    }
+    
     try {
         is >> ID >> medium >> rating;
+        
+        if ( !is.good() )
+        {
+            throw Error( Invalid_data_message );
+        }
         
         if ( ID > ID_counter )
         {
@@ -50,7 +64,44 @@ Record::Record( ifstream& is )
     {
         throw Error( Invalid_data_message );
     }
+}
 
+static void read_title( istream& is, String& title )
+{
+    title.clear();
+    char c;
+    bool last_was_space = true;
+    
+    while( is.peek() != '\n' && is.good() )
+    {
+        if ( isspace( c = is.get() ) )
+        {
+            if ( !last_was_space )
+            {
+                title += c;
+            }
+            
+            last_was_space = true;
+        }
+        else
+        {
+            last_was_space = false;
+            title += c;
+        }
+    }
+    
+    
+    
+    if ( title.size() <= 0  )
+    {
+        throw Error( Inval_Title );
+    }
+    
+    
+    if ( isspace( title[ title.size() - 1 ] ) )
+    {
+        title.remove( title.size() - 1 , 1 );
+    }
 }
 
 void Record::set_rating(int rating_)
@@ -59,7 +110,6 @@ void Record::set_rating(int rating_)
     {
         throw Error( "Rating is out of range!" );
     }
-    
     rating = rating_;
 }
 

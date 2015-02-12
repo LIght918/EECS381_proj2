@@ -33,6 +33,7 @@ static const char* const No_Coll = "No collection with that name!";
 static const char* const Inval_int = "Could not read an integer value!";
 static const char* const Open_file = "Could not open file!";
 static const char* const Invalid_data_message = "Invalid data found in file!";
+static const char* const Inval_Title = "Could not read a title!";
 
 struct Less_than_Recrod_ptr {
     bool operator()(const Record* p1, const Record* p2) const {return p1->get_ID() < p2->get_ID();}
@@ -95,7 +96,7 @@ Ordered_list<Collection>::Iterator get_collection_by_name( Ordered_list<Collecti
 
 static char get_command_char( void );
 
-
+static void read_title( std::istream& is, String& title );
 
 int main( void )
 {
@@ -116,7 +117,7 @@ int main( void )
                 second_command = get_command_char();
                 
                 //TODO remove this
-                //cout << "Command is :" << first_command << second_command << endl;
+                //cout << "Command is :" << first_command << second_command << "\n";
                 
                 switch ( first_command )
                 {
@@ -273,12 +274,12 @@ int main( void )
     }
     catch( String_exception& ex )
     {
-        cout << ex.msg << endl;
+        cout << ex.msg << "\n";
         delete_dynamic_mem( lib_title );
     }
     catch( ... )
     {
-        cout << "Unknown Error" << endl;
+        cout << "Unknown Error" << "\n";
         delete_dynamic_mem( lib_title );
     }
     
@@ -528,6 +529,7 @@ static void load_from_file( Ordered_list<Record*, Less_than_ptr<Record*>>& lib_t
     {
         int num;
         is >> num;
+        
         if ( !is )
         {
             throw Error( Invalid_data_message );
@@ -563,6 +565,9 @@ static void load_from_file( Ordered_list<Record*, Less_than_ptr<Record*>>& lib_t
         lib_title = move( lib_title_temp );
         lib_ID = move( lib_ID_temp );
         catalog = move( catalog_temp );
+        
+        
+        is.close();
         throw;
     }
     
@@ -581,18 +586,26 @@ static void save_all_to_file( Ordered_list<Record*, Less_than_ptr<Record*>>& lib
         throw Error( Open_file );
     }
     
-    os << lib_title.size() << "\n";
-    
-    for ( auto it : lib_title )
+    try
     {
-        it->save( os );
+        os << lib_title.size() << "\n";
+        
+        for ( auto it : lib_title )
+        {
+            it->save( os );
+        }
+        
+        os << catalog.size() << "\n" ;
+        
+        for ( auto it : catalog )
+        {
+            it.save( os ) ;
+        }
     }
-    
-    os << catalog.size() << "\n" ;
-    
-    for ( auto it : catalog )
+    catch ( ... )
     {
-        it.save( os ) ;
+        os.close();
+        throw;
     }
     
     os.close();
@@ -665,6 +678,44 @@ static char get_command_char( void )
     // load chars until we get one that it not white space
     while ( ( ( c = cin.get() ) > 0 ) && isspace( c ) ) ;
     
-
+    
     return c;
+}
+
+static void read_title( istream& is, String& title )
+{
+    title.clear();
+    char c;
+    bool last_was_space = true;
+    
+    while( is.peek() != '\n' && is.good() )
+    {
+        if ( isspace( c = is.get() ) )
+        {
+            if ( !last_was_space )
+            {
+                title += c;
+            }
+            
+            last_was_space = true;
+        }
+        else
+        {
+            last_was_space = false;
+            title += c;
+        }
+    }
+    
+    
+    
+    if ( title.size() <= 0  )
+    {
+        throw Error( Inval_Title );
+    }
+    
+    
+    if ( isspace( title[ title.size() - 1 ] ) )
+    {
+        title.remove( title.size() - 1 , 1 );
+    }
 }

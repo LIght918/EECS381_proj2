@@ -16,8 +16,8 @@ struct Error {
 };
 
 
+void get_command_char( std::ifstream& is );
 
-void read_title( std::istream& is, String& title );
 
 
 #endif

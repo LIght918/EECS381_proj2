@@ -41,6 +41,7 @@ void String::clear()
 {
     if ( allocation > 0 )
     {
+        //std::cout << "total allocation: " << total_allocation << " decresed by -" << allocation << std::endl;
         total_allocation -= allocation;
         allocation = 0;
         num_elt = 0;
@@ -101,6 +102,7 @@ void String::alloc_copy( const char* cstr_, int size_ )
     {
         allocation = size_ + 1;
         total_allocation += allocation;
+        //std::cout << "total allocation: " << total_allocation << " increased by " << allocation << std::endl;
         cstr = new char[ allocation ];
         strcpy( cstr, cstr_ );
     }
@@ -153,7 +155,6 @@ String String::substring(int i, int len) const
     memcpy( sub_string, cstr + i , len );
     sub_string[ len ] = '\0';
     
-    // need to remove
     String new_string( sub_string );
     
     delete[] sub_string;

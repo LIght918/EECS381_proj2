@@ -19,6 +19,9 @@ using std::ostream;
 static const char* const Invalid_data_message = "Invalid data found in file!";
 static const char* const Record_Coll = "Record is already a member in the collection!";
 static const char* const Record_Not_Coll = "Record is not a member in the collection!";
+static const char* const Inval_Title = "Could not read a title!";
+
+static void read_title( istream& is, String& title );
 
 Collection::Collection(const String& name_): name(name_) {}
 
@@ -26,6 +29,11 @@ Collection::Collection( ifstream& is, const Ordered_list<Record*, Less_than_ptr<
 {
     int num ;
     String title;
+    
+    if ( !is.good() )
+    {
+        throw Error( Invalid_data_message );
+    }
     
     is >> name >> num ;
     
@@ -58,6 +66,44 @@ Collection::Collection( ifstream& is, const Ordered_list<Record*, Less_than_ptr<
     }
 }
 
+
+static void read_title( istream& is, String& title )
+{
+    title.clear();
+    char c;
+    bool last_was_space = true;
+    
+    while( is.peek() != '\n' && is.good() )
+    {
+        if ( isspace( c = is.get() ) )
+        {
+            if ( !last_was_space )
+            {
+                title += c;
+            }
+            
+            last_was_space = true;
+        }
+        else
+        {
+            last_was_space = false;
+            title += c;
+        }
+    }
+    
+    
+    
+    if ( title.size() <= 0  )
+    {
+        throw Error( Inval_Title );
+    }
+    
+    
+    if ( isspace( title[ title.size() - 1 ] ) )
+    {
+        title.remove( title.size() - 1 , 1 );
+    }
+}
 
 void Collection::add_member(Record* record_ptr)
 {
@@ -101,7 +147,7 @@ ostream& operator<< (ostream& os, const Collection& collection)
     }
     else
     {
-        cout << "\n"; 
+        cout << "\n";
         for ( auto it = collection.lib.begin(); it != collection.lib.end() ; ++it )
         {
             os << (**it) ;

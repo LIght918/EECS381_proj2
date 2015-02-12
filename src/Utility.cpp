@@ -7,54 +7,19 @@
 //
 
 #include "Utility.h"
-#include "String.h"
-#include <cstring>
-#include <sstream>
+
 #include <iostream>
+#include <fstream>
+using std::ifstream;
 
-using std::istream;
-using std::stringstream;
-using std::cout;
-using std::endl; 
-
-static const char* const Inval_Title = "Could not read a title!";
-
-
-void read_title( istream& is, String& title )
+void get_command_char( ifstream& is )
 {
-    title.clear();
-    char c;
-    bool last_was_space = true;
+    int c;
     
-    while( is.peek() != '\n' && is.good() )
+    // load chars until we get one that it not white space
+    while ( isspace( is.peek() ) && is.good() )
     {
-        if ( isspace( c = is.get() ) )
-        {
-            if ( !last_was_space )
-            {
-                title += c;
-            }
-            
-            last_was_space = true;
-        }
-        else
-        {
-            last_was_space = false;
-            title += c;
-        }
+        is.get();
     }
     
-
-    
-    if ( title.size() <= 0  )
-    {
-        throw Error( Inval_Title );
-    }
-    
-    
-    if ( isspace( title[ title.size() - 1 ] ) )
-    {
-        title.remove( title.size() - 1 , 1 );
-    }
 }
-
