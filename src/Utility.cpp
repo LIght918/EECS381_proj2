@@ -12,14 +12,11 @@
 #include <fstream>
 using std::ifstream;
 
-void get_command_char( ifstream& is )
-{
-    int c;
-    
+void get_white_space( ifstream& is )
+{   
     // load chars until we get one that it not white space
     while ( isspace( is.peek() ) && is.good() )
     {
         is.get();
     }
-    
 }

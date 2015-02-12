@@ -29,8 +29,9 @@ Collection::Collection( ifstream& is, const Ordered_list<Record*, Less_than_ptr<
 {
     int num ;
     String title;
-    
-    if ( !is.good() )
+
+    get_white_space( is ); 
+    if ( !is.good() || is.eof() )
     {
         throw Error( Invalid_data_message );
     }

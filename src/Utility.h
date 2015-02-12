@@ -16,7 +16,7 @@ struct Error {
 };
 
 
-void get_command_char( std::ifstream& is );
+void get_white_space( std::ifstream& is );
 
 
 

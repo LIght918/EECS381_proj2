@@ -36,6 +36,7 @@ Record::Record( int ID_ ):ID( ID_){}
 
 Record::Record( ifstream& is )
 {
+    get_white_space( is ); 
     if ( is.eof() )
     {
         throw Error( Invalid_data_message );
