@@ -69,7 +69,7 @@ void Collection::add_member(Record* record_ptr)
 
 bool Collection::is_member_present(Record* record_ptr) const
 {
-    return lib.find(record_ptr ) == lib.end();
+    return lib.find( record_ptr ) != lib.end();
 }
 
 void Collection::remove_member(Record* record_ptr)

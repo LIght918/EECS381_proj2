@@ -251,14 +251,14 @@ int main( void )
                             break;
                     }
                     default:
-                        Error( Unrecognized );
+                        throw Error( Unrecognized );
                         break;
                 }
             }
             catch ( Error& ex )
             {
                 String temp;
-                cout << ex.msg << endl;
+                cout << ex.msg << "\n";
                 cin.clear();
                 getline( cin, temp );
             }
@@ -304,7 +304,8 @@ static void add_record( Ordered_list<Record*, Less_than_ptr<Record*>>& lib_title
     
     if ( lib_title.find( new_rec ) != lib_title.end() )
     {
-        Record::restore_ID_counter(); 
+        delete new_rec;
+        Record::restore_ID_counter();
         throw Error( Dup_Rec );
     }
     
@@ -476,7 +477,7 @@ static void clear_library( Ordered_list<Record*, Less_than_ptr<Record*>>& lib_ti
         }
     }
     
-    Record::save_ID_counter();
+    Record::reset_ID_counter();
     delete_dynamic_mem( lib_title );
     
     lib_ID.clear();
@@ -560,7 +561,7 @@ static void load_from_file( Ordered_list<Record*, Less_than_ptr<Record*>>& lib_t
         
         lib_title = move( lib_title_temp );
         lib_ID = move( lib_ID_temp );
-        catalog = move( catalog );
+        catalog = move( catalog_temp );
         throw;
     }
     
