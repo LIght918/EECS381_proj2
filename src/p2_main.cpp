@@ -21,6 +21,7 @@ using std::cout;
 using std::cin;
 using std::ofstream;
 using std::ifstream;
+using std::istream;
 
 static const char* const Unrecognized = "Unrecognized command!";
 static const char* const Dup_Rec = "Library already has a record with this title!";

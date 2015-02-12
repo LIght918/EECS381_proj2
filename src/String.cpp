@@ -52,26 +52,26 @@ void String::clear()
 
 String::String(const String& original)
 {
-    num_elt = original.num_elt;
-    
-    alloc_copy(original.cstr, original.num_elt );
-    
-    number++;
-    
     if ( messages_wanted )
         cout << "Copy ctor: \"" << cstr << "\"\n";
     
+    num_elt = original.num_elt;
+    
+    // give min allocation
+    alloc_copy( original.cstr, original.num_elt );
+    
+    number++;
 }
 
 String::String( const char* cstr_ )
 {
-    num_elt =  strlen( cstr_ );
+    if ( messages_wanted )
+        cout << "Ctor: \"" << cstr << "\"\n";
+    
+    num_elt = strlen( cstr_ );
 
     alloc_copy( cstr_, num_elt );
     number++;
-    
-    if ( messages_wanted )
-        cout << "Ctor: \"" << cstr << "\"\n";
 }
 
 String& String::operator= (const String& rhs)
@@ -80,7 +80,7 @@ String& String::operator= (const String& rhs)
         cout << "Copy assign from String:  \"" << rhs << "\"\n";
     
     String temp( rhs );
-    swap(  temp );
+    swap( temp );
     
     return *this;
 }
@@ -102,7 +102,6 @@ void String::alloc_copy( const char* cstr_, int size_ )
     {
         allocation = size_ + 1;
         total_allocation += allocation;
-        //std::cout << "total allocation: " << total_allocation << " increased by " << allocation << std::endl;
         cstr = new char[ allocation ];
         strcpy( cstr, cstr_ );
     }
@@ -115,13 +114,15 @@ void String::alloc_copy( const char* cstr_, int size_ )
         
 String::String(String&& original) noexcept
 {
-    allocation = original.allocation;
+    /*allocation = original.allocation;
     num_elt = original.num_elt;
     cstr = original.cstr;
     
     original.cstr = &a_null_byte;
     original.allocation = 0;
-    original.num_elt = 0;
+    original.num_elt = 0;*/
+    
+    swap( original );
     
     number++;
     
@@ -191,7 +192,7 @@ const char& String::operator[] (int i) const
 // use len = 0 to just check i
 inline void String::check_bounds( int i, int len, const char* message ) const
 {
-    if ( i < 0  || i + len > num_elt || len < 0 )
+    if ( i < 0  || i + len >= num_elt || len < 0 )
     {
         throw String_exception( message );
     }
@@ -267,7 +268,7 @@ String operator+ (const String& lhs, const String& rhs)
     
     new_string += rhs;
     
-    return new_string;
+    return std::move( new_string ) ;
 }
 
 // compare lhs and rhs strings; constructor will convert a C-string literal to a String.

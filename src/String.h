@@ -165,8 +165,6 @@ private:
     void alloc_copy( const char* cstr_, int size_ );
     
     void grow( int n );
-    
-	/* *** Except for those listed below, your choice for private members */
 	
 	static char a_null_byte;	// to hold a null byte for empty string representation
 

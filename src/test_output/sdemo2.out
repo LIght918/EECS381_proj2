@@ -1,32 +1,35 @@
-Enter quit, or a test name and two integers, i and j:
+Enter quit, or a test name and two integers, i and j:[] 5 9
 Before: 0123456789
 After:  0123496789
-Enter quit, or a test name and two integers, i and j:
+Enter quit, or a test name and two integers, i and j:[] 5 14
 Before: 0123456789
 Subscript out of range
-Enter quit, or a test name and two integers, i and j:
+Enter quit, or a test name and two integers, i and j:sub 2 3
 Source: 0123456789
 Result: 234
-Enter quit, or a test name and two integers, i and j:
+Enter quit, or a test name and two integers, i and j:sub -5 3
 Source: 0123456789
 Substring bounds invalid
-Enter quit, or a test name and two integers, i and j:
+Enter quit, or a test name and two integers, i and j:sub 7 5
 Source: 0123456789
 Substring bounds invalid
-Enter quit, or a test name and two integers, i and j:
+Enter quit, or a test name and two integers, i and j:rem 0 5
 Before: 0123456789
 After:  56789
-Enter quit, or a test name and two integers, i and j:
+Enter quit, or a test name and two integers, i and j:rem 8 3
 Before: 0123456789
 Remove bounds invalid
-Enter quit, or a test name and two integers, i and j:Excuse me, but you entered something wrong. Please try again.
+Enter quit, or a test name and two integers, i and j:ins 3 x
+Excuse me, but you entered something wrong. Please try again.
 In the meantime, I will clean up the place a bit.
-Enter quit, or a test name and two integers, i and j:
+Enter quit, or a test name and two integers, i and j:ins 3 3
 Before: 0123456789
 After:  012abcabcabc3456789
-Enter quit, or a test name and two integers, i and j:
+Enter quit, or a test name and two integers, i and j:ins 14 1
 Before: 0123456789
 Insertion point out of range
-Enter quit, or a test name and two integers, i and j:Excuse me, but you entered something wrong. Please try again.
+Enter quit, or a test name and two integers, i and j:prang 14 23
+Excuse me, but you entered something wrong. Please try again.
 In the meantime, I will clean up the place a bit.
-Enter quit, or a test name and two integers, i and j:And thank you, for trying out String's exception throwing!
+Enter quit, or a test name and two integers, i and j:quit
+And thank you, for trying out String's exception throwing!

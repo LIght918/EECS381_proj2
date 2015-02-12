@@ -1,5 +1,5 @@
 // demonstrate exception handling
-#include "../String.h"
+#include "String.h"
 #include <iostream>
 
 using namespace std;
@@ -29,28 +29,27 @@ int main ()
 		if(code == "quit")
 			break;
 		cin >> i >> j;
-		if (!cin) 
-		{
+		if (!cin) {
 			throw User_screwed_up();
-		}
-
+			}
+	
 		if(code == "[]") {
-			cout << "\nBefore: " << str << endl;
+			cout << "Before: " << str << endl;
 			str[i] = str[j];
 			cout << "After:  " << str << endl;
 			}
 		else if(code == "sub") {
-			cout << "\nSource: " << str << endl;
+			cout << "Source: " << str << endl;
 			String sub = str.substring(i, j);
 			cout << "Result: " << sub << endl;
 			}
 		else if(code == "rem") {
-			cout << "\nBefore: " << str << endl;
+			cout << "Before: " << str << endl;
 			str.remove(i, j);
 			cout << "After:  " << str << endl;
 			}
 		else if(code == "ins") {
-			cout << "\nBefore: " << str << endl;
+			cout << "Before: " << str << endl;
 			String ins("abc");
 			for(int k = 0; k < j; k++)
 				str.insert_before(i, ins);
@@ -61,7 +60,7 @@ int main ()
 		
 		} // end of try block
 		catch(User_screwed_up& x) {
-			cout << "\nExcuse me, but you entered something wrong. Please try again." << endl;
+			cout << "Excuse me, but you entered something wrong. Please try again." << endl;
 			cout << "In the meantime, I will clean up the place a bit." << endl;
 			cin.clear();
 			while(cin.get() != '\n');
@@ -72,7 +71,7 @@ int main ()
 			
 		// go around again
 		}
-	cout << "\nAnd thank you, for trying out String's exception throwing!" << endl;
+	cout << "And thank you, for trying out String's exception throwing!" << endl;
 }
 
 /* Typical program behavior:
