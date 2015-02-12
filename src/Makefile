@@ -24,6 +24,8 @@ stest: $(SDEMO1) $(SDEMO2) $(SDEMO3) $(SDEMO4)
 	   rm -f $(SDEMO1) $(SDEMO2) $(SDEMO3) $(SDEMO4)
 
 test: $(PROG)
+	./p2exe <test_files/errors_in.txt >test_output/errors_out
+	diff test_output/errors_out test_output/errors_out.txt
 	./p2exe <test_files/normal_in.txt >test_output/normal_out
 	diff test_output/normal_out test_output/normal_out.txt
 

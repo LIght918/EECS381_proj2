@@ -44,14 +44,17 @@ void read_title( istream& is, String& title )
         }
     }
     
-    if ( isspace( title[ title.size() - 1 ] ) )
-    {
-        title.remove( title.size() - 1 , 1 );
-    }
+
     
     if ( title.size() <= 0  )
     {
         throw Error( Inval_Title );
+    }
+    
+    
+    if ( isspace( title[ title.size() - 1 ] ) )
+    {
+        title.remove( title.size() - 1 , 1 );
     }
 }
 

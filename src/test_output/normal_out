@@ -105,7 +105,7 @@ Enter command: Catalog contains 2 collections:
 Collection favorites contains:
 2: VHS 4 Showboat
 5: VHS u Zorba the Greek
-Collection literary contains:None
+Collection literary contains: None
 
 Enter command: Member 4 Much Ado about Nothing added
 
@@ -121,9 +121,7 @@ Collection literary contains:
 
 Enter command: Record 6 added
 
-Enter command: 
-
-Data saved
+Enter command: Data saved
 
 Enter command: All collections deleted
 
@@ -136,14 +134,14 @@ Lists: 3
 List Nodes: 0
 Strings: 0 with 0 bytes total
 
-Enter command: Invalid data found in file!
+Enter command: Data loaded
 
 Enter command: Memory allocations:
 Records: 5
-Collections: 0
-Lists: 3
-List Nodes: 10
-Strings: 10 with 130 bytes total
+Collections: 2
+Lists: 5
+List Nodes: 16
+Strings: 12 with 149 bytes total
 
 Enter command: Record 7 added
 
@@ -155,22 +153,33 @@ Enter command: Library contains 6 records:
 1: DVD 1 Tobruk
 5: VHS u Zorba the Greek
 
-Enter command: Catalog is empty
+Enter command: Catalog contains 2 collections:
+Collection favorites contains:
+2: VHS 4 Showboat
+5: VHS u Zorba the Greek
+Collection literary contains:
+4: DVD 5 Much Ado about Nothing
+5: VHS u Zorba the Greek
 
-Enter command: No collection with that name!
+Enter command: Collection literary deleted
 
-Enter command: Catalog is empty
+Enter command: Catalog contains 1 collections:
+Collection favorites contains:
+2: VHS 4 Showboat
+5: VHS u Zorba the Greek
 
-Enter command: No collection with that name!
+Enter command: Member 2 Showboat deleted
 
-Enter command: Catalog is empty
+Enter command: Catalog contains 1 collections:
+Collection favorites contains:
+5: VHS u Zorba the Greek
 
 Enter command: Memory allocations:
 Records: 6
-Collections: 0
-Lists: 3
-List Nodes: 12
-Strings: 12 with 148 bytes total
+Collections: 1
+Lists: 4
+List Nodes: 14
+Strings: 13 with 158 bytes total
 
 Enter command: All data deleted
 
@@ -181,4 +190,5 @@ Lists: 3
 List Nodes: 0
 Strings: 0 with 0 bytes total
 
-Enter command: Done
+Enter command: All data deleted
+Done

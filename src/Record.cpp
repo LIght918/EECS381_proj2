@@ -32,12 +32,25 @@ Record::Record( int ID_ ):ID( ID_){}
 
 Record::Record( ifstream& is )
 {
-    is >> ID >> medium >> rating;
-    read_title( is, title );
-    if ( !is.good() )
+    try {
+        is >> ID >> medium >> rating;
+        
+        if ( ID > ID_counter )
+        {
+            ID_counter = ID;
+        }
+        
+        read_title( is, title );
+        if ( !is.good() )
+        {
+            throw Error( Invalid_data_message );
+        }
+    }
+    catch ( ... )
     {
         throw Error( Invalid_data_message );
     }
+
 }
 
 void Record::set_rating(int rating_)

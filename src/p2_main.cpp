@@ -29,8 +29,9 @@ static const char* const Coll_Not_Empty = "Cannot clear all records unless all c
 static const char* const No_Rec_title = "No record with that title!";
 static const char* const No_Rec_ID = "No record with that ID!";
 static const char* const No_Coll = "No collection with that name!";
-static const char* const Inval_int = "Coauld not read an integer value!";
+static const char* const Inval_int = "Could not read an integer value!";
 static const char* const Open_file = "Could not open file!";
+static const char* const Invalid_data_message = "Invalid data found in file!";
 
 struct Less_than_Recrod_ptr {
     bool operator()(const Record* p1, const Record* p2) const {return p1->get_ID() < p2->get_ID();}
@@ -77,10 +78,7 @@ static void clear_library( Ordered_list<Record*, Less_than_ptr<Record*>>& lib_ti
 static void clear_all( Ordered_list<Record*, Less_than_ptr<Record*>>& lib_title, Ordered_list<Record*,Less_than_Recrod_ptr>& lib_ID,
                       Ordered_list<Collection>& catalog);
 
-static void quit( Ordered_list<Record*, Less_than_ptr<Record*>>& lib_title );
-
-static void load_from_file( Ordered_list<Record*, Less_than_ptr<Record*>>& lib_title, Ordered_list<Record*,Less_than_Recrod_ptr>& lib_ID,
-                           Ordered_list<Collection>& catalog );
+static void delete_dynamic_mem( Ordered_list<Record*, Less_than_ptr<Record*>>& lib_title );
 
 static void load_from_file( Ordered_list<Record*, Less_than_ptr<Record*>>& lib_title, Ordered_list<Record*,Less_than_Recrod_ptr>& lib_ID,
                            Ordered_list<Collection>& catalog );
@@ -197,9 +195,6 @@ int main( void )
                             //delete_m
                             remove_member(lib_ID, catalog);
                             break;
-                        case 'a': /* allocation */
-                            /* throw error */
-                            break;
                         default:
                             throw Error( Unrecognized );;
                             break;
@@ -247,8 +242,8 @@ int main( void )
                     {
                         case 'q':
                             // clean up memory
-                            quit( lib_title );
-                            cout << "Done\n";
+                            delete_dynamic_mem( lib_title );
+                            cout << "All data deleted\nDone\n";
                             return 0;
                             break;
                         default:
@@ -264,28 +259,26 @@ int main( void )
             {
                 String temp;
                 cout << ex.msg << endl;
-                getline( cin, temp );
                 cin.clear();
+                getline( cin, temp );
             }
         }
-        
-        
     }
     catch ( bad_alloc& ex )
     {
         cout << "Bad allocation\n";
-        quit(lib_title );
+        delete_dynamic_mem( lib_title );
         throw;
     }
     catch( String_exception& ex )
     {
         cout << ex.msg << endl;
-        quit(lib_title );
+        delete_dynamic_mem( lib_title );
     }
     catch( ... )
     {
         cout << "Unknown Error" << endl;
-        quit(lib_title );
+        delete_dynamic_mem( lib_title );
     }
     
     return 0;
@@ -306,10 +299,12 @@ static void add_record( Ordered_list<Record*, Less_than_ptr<Record*>>& lib_title
     
     read_title( cin , title ) ;
     
-    Record* new_rec = new Record(medium, title );
+    Record::save_ID_counter();
+    Record* new_rec = new Record( medium, title );
     
     if ( lib_title.find( new_rec ) != lib_title.end() )
     {
+        Record::restore_ID_counter(); 
         throw Error( Dup_Rec );
     }
     
@@ -481,7 +476,8 @@ static void clear_library( Ordered_list<Record*, Less_than_ptr<Record*>>& lib_ti
         }
     }
     
-    quit( lib_title );
+    Record::save_ID_counter();
+    delete_dynamic_mem( lib_title );
     
     lib_ID.clear();
     lib_title.clear();
@@ -492,13 +488,13 @@ static void clear_all( Ordered_list<Record*, Less_than_ptr<Record*>>& lib_title,
                       Ordered_list<Collection>& catalog)
 {
     catalog.clear();
-    quit( lib_title );
+    delete_dynamic_mem( lib_title );
     lib_ID.clear();
     lib_title.clear();
     cout << "All data deleted\n";
 }
 
-static void quit( Ordered_list<Record*, Less_than_ptr<Record*>>& lib_title )
+static void delete_dynamic_mem( Ordered_list<Record*, Less_than_ptr<Record*>>& lib_title )
 {
     for ( auto it : lib_title )
     {
@@ -509,7 +505,6 @@ static void quit( Ordered_list<Record*, Less_than_ptr<Record*>>& lib_title )
 static void load_from_file( Ordered_list<Record*, Less_than_ptr<Record*>>& lib_title, Ordered_list<Record*,Less_than_Recrod_ptr>& lib_ID,
                            Ordered_list<Collection>& catalog )
 {
-    
     String file_name;
     
     cin >> file_name;
@@ -520,40 +515,58 @@ static void load_from_file( Ordered_list<Record*, Less_than_ptr<Record*>>& lib_t
         throw Error( Open_file );
     }
     
-    int num;
-    is >> num;
+    Record::save_ID_counter();
+    Record::reset_ID_counter();
     
-    if ( !is )
+    Ordered_list< Record*, Less_than_ptr<Record*> > lib_title_temp ( move( lib_title ) );
+    Ordered_list< Record*, Less_than_Recrod_ptr > lib_ID_temp( move( lib_ID ) );
+    Ordered_list< Collection > catalog_temp( move( catalog ) );
+    
+    try
     {
-        throw Error( Inval_int );
+        int num;
+        is >> num;
+        if ( !is )
+        {
+            throw Error( Invalid_data_message );
+        }
+        
+        for ( int i = 0; i < num ; ++i )
+        {
+            Record* new_rec = new Record( is );
+            lib_title.insert( new_rec );
+            lib_ID.insert( new_rec );
+        }
+        
+        is >> num;
+        
+        if ( !is )
+        {
+            throw Error( Invalid_data_message );
+        }
+        
+        for ( int i = 0; i < num ; ++i )
+        {
+            Collection new_coll( is, lib_title );
+            catalog.insert( new_coll );
+        }
+        is.close();
+    }
+    catch ( Error& er )
+    {
+        Record::restore_ID_counter();
+        
+        delete_dynamic_mem( lib_title );
+        
+        lib_title = move( lib_title_temp );
+        lib_ID = move( lib_ID_temp );
+        catalog = move( catalog );
+        throw;
     }
     
-    for ( int i = 0; i < num ; ++i )
-    {
-        Record* new_rec = new Record( is );
-        lib_title.insert( new_rec );
-        lib_ID.insert( new_rec );
-    }
-    
-    is >> num;
-    
-    if ( !is )
-    {
-        throw Error( Inval_int );
-    }
-    
-    for ( int i = 0; i < num ; ++i )
-    {
-        Collection new_coll( is, lib_title );
-        catalog.insert( new_coll );
-    }
-    
-    is.close();
+    delete_dynamic_mem( lib_title_temp );
     cout << "Data loaded\n";
 }
-
-//static void load_from_file( Ordered_list<Record*, Less_than_ptr<Record*>> lib_title, Ordered_list<Record*,Less_than_Recrod_ptr> lib_ID,
- //                          Ordered_list<Collection> catalog ){ }
 
 static void save_all_to_file( Ordered_list<Record*, Less_than_ptr<Record*>>& lib_title, Ordered_list<Collection>& catalog)
 {
@@ -567,15 +580,17 @@ static void save_all_to_file( Ordered_list<Record*, Less_than_ptr<Record*>>& lib
     }
     
     os << lib_title.size() << "\n";
+    
     for ( auto it : lib_title )
     {
         it->save( os );
     }
     
-    os << catalog.size() << "\n";
+    os << catalog.size() << "\n" ;
+    
     for ( auto it : catalog )
     {
-        os << it;
+        it.save( os ) ;
     }
     
     os.close();
@@ -589,9 +604,7 @@ Ordered_list<Record*, Less_than_Recrod_ptr>::Iterator  get_record_by_id( Ordered
     cin >> ID;
     
     if ( !cin )
-    {
         throw Error( Inval_int );
-    }
     
     Record probe( ID );
     auto it = lib_ID.find( &probe );
@@ -614,9 +627,7 @@ Ordered_list<Record*, Less_than_ptr<Record*>>::Iterator  get_record_by_title( Or
     auto it = lib_title.find( &probe );
     
     if ( it == lib_title.end() )
-    {
         throw Error( No_Rec_title );
-    }
     
     return it;
 }

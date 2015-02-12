@@ -369,6 +369,7 @@ Ordered_list<T, OF>::Ordered_list(const Ordered_list& original) : num_elt(0),fir
 {
     Node* cur_node = original.last;
     ++g_Ordered_list_count;
+    
     try
     {
         while( cur_node )
@@ -377,13 +378,11 @@ Ordered_list<T, OF>::Ordered_list(const Ordered_list& original) : num_elt(0),fir
             cur_node = cur_node->prev;
         }
     }
-    
     catch ( ... )
     {
         clear();
         throw;
     }
-    
 }
 
 template<typename T, typename OF>

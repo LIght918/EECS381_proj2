@@ -24,17 +24,29 @@ Collection::Collection(const String& name_): name(name_) {}
 
 Collection::Collection( ifstream& is, const Ordered_list<Record*, Less_than_ptr<Record*>>& library )
 {
-    int num = -1;
+    int num ;
     String title;
     
     is >> name >> num ;
     
-    if( !is || num < 0 )
+    if( !is.good() || num < 0 )
         throw Error( Invalid_data_message );
+    
+    getline( is, title );
+    is.get();
     
     for ( int i = 0; i < num ; ++i )
     {
-        read_title( is, title );
+        try
+        {
+            read_title( is, title );
+            is.get();
+        }
+        catch ( ... )
+        {
+            throw Error( Invalid_data_message );
+        }
+        
         Record prode( title );
         
         auto it = library.find( &prode );
