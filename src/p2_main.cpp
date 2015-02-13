@@ -13,6 +13,7 @@
 #include "Utility.h"
 #include <iostream>
 #include <fstream>
+#define NDEBUG
 #include <cassert>
 #include <new> // bad_alloc
 #include <functional> //mem_fn
@@ -120,9 +121,6 @@ int main( void )
                 
                 first_command  = get_command_char();
                 second_command = get_command_char();
-                
-                //TODO remove this
-                //cout << "Command is :" << first_command << second_command << "\n";
                 
                 switch ( first_command )
                 {
@@ -337,7 +335,7 @@ static void add_coll( Ordered_list<Collection>& catalog )
         throw Error( Dup_Member );
     }
     
-    catalog.insert( new_coll );
+    catalog.insert( move( new_coll )  );
     
     cout << "Collection " << name <<  " added\n";
 }
