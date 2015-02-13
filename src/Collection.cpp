@@ -32,7 +32,7 @@ Collection::Collection( ifstream& is, const Ordered_list<Record*, Less_than_ptr<
 
 
     get_white_space( is );
-    if ( !is.good() || is.eof() )
+    if ( !is.good() )
     {
         throw Error( Invalid_data_message );
     }
