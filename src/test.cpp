@@ -18,17 +18,15 @@ int main()
 	String::set_messages_wanted(true);
 	
 	{
-	    cout << "\nDemonstrate assignment operators" << endl;
-	    String a, b, c;
-	    cout << "Assign from a C-string" << endl;
-	    // assign from a C-string
-	    a = "Good Morning!";
-	    cout << "Assign from another String" << endl;
-	    b = a;
-	    cout << "Assign from a + b" << endl;
-	    c = a + b;
-	    cout << "a:" << a << " b:" << b << " c:" << c << endl;
-	    print_String_info();
+		//cout << "test" << endl; 
+		String s1( "test" );
+		//cout << "please " << endl; 
+		String s2( "please" );
+		//cout << " blank " << endl; 
+		String s3;
+		//cout << "here" << endl; 
+		s3 = s1 + s2; 
+		cout << "allocation of s3 is " << s3.get_allocation() << endl; 
 	}
 	return 0; 
 }

@@ -22,6 +22,8 @@ using std::cin;
 using std::ofstream;
 using std::ifstream;
 using std::istream;
+using std::move; 
+using std::endl; 
 
 static const char* const Unrecognized = "Unrecognized command!";
 static const char* const Dup_Rec = "Library already has a record with this title!";
@@ -359,9 +361,7 @@ static void delete_record( Ordered_list<Record*, Less_than_ptr<Record*>>& lib_ti
 
     lib_ID.erase( it_ID );
     lib_title.erase( it_title );
-    
-    
-    
+
     //clean up mem
     delete rec;
 }
@@ -542,7 +542,7 @@ static void load_from_file( Ordered_list<Record*, Less_than_ptr<Record*>>& lib_t
             lib_title.insert( new_rec );
             lib_ID.insert( new_rec );
         }
-        
+
         is >> num;
         
         if ( !is )
@@ -553,7 +553,8 @@ static void load_from_file( Ordered_list<Record*, Less_than_ptr<Record*>>& lib_t
         for ( int i = 0; i < num ; ++i )
         {
             Collection new_coll( is, lib_title );
-            catalog.insert( new_coll );
+            
+            catalog.insert( move( new_coll ) );
         }
         is.close();
     }
@@ -664,8 +665,6 @@ Ordered_list<Collection>::Iterator get_collection_by_name( Ordered_list<Collecti
     return it;
 }
 
-
-
 static void clear_catalog(Ordered_list<Collection>& catalog)
 {
     catalog.clear();
@@ -675,11 +674,9 @@ static void clear_catalog(Ordered_list<Collection>& catalog)
 static char get_command_char( void )
 {
     int c;
-    
     // load chars until we get one that it not white space
     while ( ( ( c = cin.get() ) > 0 ) && isspace( c ) ) ;
-    
-    
+
     return c;
 }
 
@@ -706,8 +703,6 @@ static void read_title( istream& is, String& title )
             title += c;
         }
     }
-    
-    
     
     if ( title.size() <= 0  )
     {

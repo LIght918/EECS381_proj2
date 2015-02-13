@@ -498,7 +498,7 @@ void Ordered_list<T, OF>::insert(T&& new_datum)
         first = new_node;
         last  = new_node;
     }
-    else if ( !ordering_f(std::move(cur_node->datum), new_datum ))
+    else if ( !ordering_f( cur_node->datum, new_datum ))
     {
         /* check to see if it should be the first node */
         first = new Node( std::move(new_datum), nullptr, cur_node );

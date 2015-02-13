@@ -20,8 +20,11 @@ sdemo3: $(SDEMO3)
 sdemo4: $(SDEMO4)
 OCdemo: $(OCdemo)
 
-stest: $(SDEMO1) $(SDEMO2) $(SDEMO3) $(SDEMO4)
-	   rm -f $(SDEMO1) $(SDEMO2) $(SDEMO3) $(SDEMO4)
+comptest: 
+		g++ -pedantic -Wall -g p2_main.o Record.o Collection.o p2_globals.o String.o Utility.o -o p2exeo
+
+stest:  test.o String.o Utility.o
+	$(LD) $(LFLAGS) -fno-elide-constructors test.o String.o Utility.o -o testexe
 
 test: $(PROG)
 	./p2exe <test_files/errors_in.txt >test_output/errors_out
