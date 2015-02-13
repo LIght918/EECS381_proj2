@@ -15,6 +15,8 @@
 
 using std::ifstream;
 using std::ostream;
+using std::cout;
+using std::endl; 
 
 static const char* const Invalid_data_message = "Invalid data found in file!";
 static const char* const Record_Coll = "Record is already a member in the collection!";
