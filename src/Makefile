@@ -55,10 +55,13 @@ $(SDEMO4): String_demo4.o String.o Utility.o
 	./sdemo4exe >test_output/sdemo4.txt 
 	diff test_output/sdemo4.txt test_output/sdemo4.out
 
-$(OCdemo): Ordered_list_demo.o Utility.o p2_globals.o Ordered_list.h
+$(OCdemo): Ordered_list_demo.o Utility.o p2_globals.o Ordered_list.h Ordered_list_exception_safety_demo.o
 	$(LD) $(LFLAGS) Ordered_list_demo.o Utility.o p2_globals.o -o $(OCdemo)
 	./$(OCdemo) >test_output/OCdemo.txt <test_files/OCdemo.in
 	diff test_output/OCdemo.txt test_output/OCdemo.out
+	$(LD) $(LFLAGS) Ordered_list_exception_safety_demo.o Utility.o p2_globals.o -o OC_execptionexe
+	./OC_execptionexe > test_output/Ordered_list_exception_safety_demo
+	diff test_output/Ordered_list_exception_safety_demo test_output/OCthrow.txt
 
 String_demo1.o: test_files/String_demo1.cpp String.h Utility.h
 	$(CC) $(CFLAGS) test_files/String_demo1.cpp
@@ -74,6 +77,9 @@ String_demo4.o: test_files/String_demo4.cpp String.h Utility.h
 
 Ordered_list_demo.o: test_files/Ordered_list_demo.cpp String.h Utility.h Ordered_list.h
 	$(CC) $(CFLAGS) test_files/Ordered_list_demo.cpp
+
+Ordered_list_exception_safety_demo.o: test_files/Ordered_list_exception_safety_demo.cpp String.h Utility.h
+	$(CC) $(CFLAGS) test_files/Ordered_list_exception_safety_demo.cpp
 
 $(PROG): $(OBJS)
 	$(LD) $(LFLAGS) $(OBJS) -o $(PROG)

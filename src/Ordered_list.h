@@ -301,6 +301,9 @@ public:
 	void swap(Ordered_list & other) noexcept;
 
 private:
+
+	void push_back( const T& new_datum );
+
 	// member variable declaration for the ordering function object.
 	OF ordering_f;  // declares an object of OF type
     int num_elt;
@@ -367,15 +370,14 @@ Ordered_list<T, OF>::Ordered_list():num_elt(0),first(nullptr),last(nullptr)
 template<typename T, typename OF>
 Ordered_list<T, OF>::Ordered_list(const Ordered_list& original) : num_elt(0),first(nullptr),last(nullptr)
 {
-    Node* cur_node = original.last;
+    Node* cur_node = original.first;
     ++g_Ordered_list_count;
-    
     try
     {
         while( cur_node )
         {
-            insert( cur_node->datum );
-            cur_node = cur_node->prev;
+            push_back( cur_node->datum );
+            cur_node = cur_node->next;
         }
     }
     catch ( ... )
@@ -397,15 +399,8 @@ Ordered_list<T, OF>::Ordered_list(Ordered_list&& original) noexcept :
 template<typename T, typename OF>
 Ordered_list<T, OF>& Ordered_list<T, OF>::operator= (const Ordered_list& rhs)
 {
-    clear();
-    
-    Node* cur_node = rhs.last;
-    
-    while( cur_node )
-    {
-        insert( cur_node->datum );
-        cur_node = cur_node->prev;
-    }
+	Ordered_list<T, OF> temp( rhs ); 
+	swap( temp ); 
     return *this;
 }
 
@@ -433,15 +428,13 @@ void Ordered_list<T, OF>::clear() noexcept
     }
 }
 
-
-using namespace std; //TODO Remove
 template<typename T, typename OF>
 void Ordered_list<T, OF>::insert(const T& new_datum)
 {
     Node* cur_node = first;
     Node* new_node;
     
-    /* if the container is empty add it as first and last */
+    // if the container is empty add it as first and last 
     if ( first == nullptr )
     {
         new_node = new Node( new_datum, nullptr, nullptr );
@@ -450,18 +443,18 @@ void Ordered_list<T, OF>::insert(const T& new_datum)
     }
     else if ( !ordering_f(cur_node->datum, new_datum ))
     {
-        /* check to see if it should be the first node */
+        // check to see if it should be the first node
         first = new Node( new_datum, nullptr, cur_node );
         cur_node->prev = first; 
     }
     else
     {
-        /* its ok to increment it first time since we know it
-         isn't the first element */
+        // its ok to increment it first time since we know it
+        // isn't the first element 
         while ( ( cur_node = cur_node->next ) )
         {
-            /* if the new data should be on the left of cur_node
-             insert it on the left */
+            // if the new data should be on the left of cur_node
+            // insert it on the left 
 
             if ( !ordering_f( cur_node->datum, new_datum )  )
             {
@@ -491,7 +484,7 @@ void Ordered_list<T, OF>::insert(T&& new_datum)
     
     num_elt++;
     
-    /* if the container is empty add it as first and last */
+    // if the container is empty add it as first and last 
     if ( first == nullptr )
     {
         new_node = new Node( std::move(new_datum), nullptr, nullptr );
@@ -506,12 +499,12 @@ void Ordered_list<T, OF>::insert(T&& new_datum)
     }
     else
     {
-        /* its ok to increment it first time since we know it
-         isn't the first element */
+        // its ok to increment it first time since we know it
+        // isn't the first element 
         while ( ( cur_node = cur_node->next ) )
         {
-            /* if the new data should be on the left of cur_node
-             insert it on the left */
+            // if the new data should be on the left of cur_node
+            // insert it on the left 
             if ( !ordering_f( cur_node->datum, new_datum )  )
             {
 
@@ -579,6 +572,24 @@ void Ordered_list<T, OF>::swap(Ordered_list & other) noexcept
     std::swap( num_elt, other.num_elt );
     std::swap( first,   other.first   );
     std::swap( last,    other.last    );
+}
+
+template<typename T, typename OF>
+void Ordered_list<T, OF>::push_back( const T& new_datum )
+{
+
+
+	if ( first == nullptr )
+	{
+		first = last = new Node( new_datum, first, nullptr );
+	}
+	else
+	{
+		last->next = new Node( new_datum, first, nullptr );
+		last = last->next;
+	}
+
+	num_elt++; 
 }
 
 #endif

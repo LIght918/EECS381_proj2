@@ -15,6 +15,7 @@
 #include <fstream>
 #include <cassert>
 #include <new> // bad_alloc
+#include <functional> //mem_fn
 
 using std::bad_alloc;
 using std::cout;
@@ -23,7 +24,8 @@ using std::ofstream;
 using std::ifstream;
 using std::istream;
 using std::move; 
-using std::endl; 
+using std::endl;
+using std::mem_fn;
 
 static const char* const Unrecognized = "Unrecognized command!";
 static const char* const Dup_Rec = "Library already has a record with this title!";
@@ -397,11 +399,7 @@ static void print_lib( Ordered_list<Record*, Less_than_ptr<Record*>>& lib_title 
     else
     {
         cout << "Library contains " << lib_title.size() << " records:\n";
-        
-        for (auto it = lib_title.begin(); it != lib_title.end(); ++it )
-        {
-            cout << **it ;
-        }
+        apply( lib_title.begin(), lib_title.end(), []( Record* it ){ cout << *it ; }  );
     }
 
 }
